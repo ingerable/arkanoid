@@ -1,23 +1,18 @@
-#include "SDL2-2.0.8/include/SDL.h"
+#include "sdl_o_rectangle.h"
 
-class Sdl_o_rectangle
+Sdl_o_rectangle();
+Sdl_o_rectangle(int x1, int y1, int w1, int h1)
 {
-  private:
-    int m_x = 0;
-    int m_y = 0;
-    int m_width = 0;
-    int m_height = 0;
-
- public:
-   Sdl_o_rectangle();
-   Sdl_o_rectangle(int x1, int y1, int w1, int h1)
-   {
-     m_x = x1;
-     m_y = y1;
-     m_width = w1;
-     m_height = h1;
-   }
+  m_x = x1;
+  m_y = y1;
+  m_width = w1;
+  m_height = h1;
+  rect = { m_x, m_y, m_width, m_height }
 };
+SDL_Rect getRect()
+{
+  return this->rect;
+}
 
 int main()
 {
