@@ -1,4 +1,4 @@
-#include "/SDL2_OO/SDL2-2.0.8/include/SDL.h"
+#include "./SDL2_OO/SDL2-2.0.8/include/SDL.h"
 #include <SDL2/SDL.h>
 
 #include <iostream>
@@ -21,13 +21,13 @@ void init()
 	pWindow = SDL_CreateWindow("Arknoid", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 600, 600, SDL_WINDOW_SHOWN);
 	win_surf = SDL_GetWindowSurface(pWindow);
 
-	plancheSprites = SDL_LoadBMP("./sprites.bmp");
+	plancheSprites = SDL_LoadBMP("./bmp/sprites.bmp");
 	SDL_SetColorKey(plancheSprites, true, 0);  // 0: 00/00/00 noir -> transparent
 
-	ball.x = win_surf->w / 2;;
+/*	ball.x = win_surf->w / 2;;
 	ball.y = win_surf->h / 2;
 	speed.x =  5;
-	speed.y = 7;
+	speed.y = 7;*/
 }
 
 
@@ -46,7 +46,7 @@ void draw()
 
 
 	// affiche balle
-	SDL_BlitSurface(plancheSprites, &srcBall, win_surf, &ball);
+/*	SDL_BlitSurface(plancheSprites, &srcBall, win_surf, &ball);
 
 	// dedplacement
 	ball.x += speed.x;
@@ -72,7 +72,7 @@ void draw()
 	// vaisseau
 	dest.x = x_vault;
 	dest.y = win_surf->h - 32;
-	SDL_BlitSurface(plancheSprites, &scrVaiss, win_surf, &dest);
+	SDL_BlitSurface(plancheSprites, &scrVaiss, win_surf, &dest);*/
 }
 
 

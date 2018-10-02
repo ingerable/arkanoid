@@ -7,7 +7,7 @@ Sdl_o_surface::Sdl_o_surface(SDL_Surface* m)
   m_win_surf = m;
 }
 
-Sdl_o_surface::Sdl_o_surface(char* pathImage)
+Sdl_o_surface::Sdl_o_surface(const char* pathImage)
 {
   m_win_surf = SDL_LoadBMP(pathImage);
 }

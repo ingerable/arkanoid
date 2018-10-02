@@ -10,7 +10,7 @@ class Sdl_o_window
   private:
     SDL_Window* m_pWindow = nullptr;
     Sdl_o_surface m_win_surf;
-    char *m_title;
+    const char *m_title;
     int m_windowPositionX;
     int m_windowPositionY;
     int m_windowWidth;
@@ -18,7 +18,9 @@ class Sdl_o_window
     Uint32 m_flag;
 
  public:
-   Sdl_o_window(char *t, int posX, int posY, int width, int height, int f);
+   Sdl_o_window(const char *t, int posX, int posY, int width, int height, int f);
+   void fillWindowWithSurface(Sdl_o_surface surface); // source surface that will fill the current window
+   void updateScreen();
 };
 
 #endif

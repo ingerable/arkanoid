@@ -13,7 +13,7 @@ class Sdl_o_surface
  public:
    Sdl_o_surface();
    Sdl_o_surface(SDL_Surface* m);
-   Sdl_o_surface(char* pathImage);
+   Sdl_o_surface(const char* pathImage);
    SDL_Surface* getSurfPtr();
    int blitSurfaceOn(SDL_Surface &target, SDL_Rect &rectSrc,SDL_Rect &rectTarget); // copy rectSrc from current surface to rectTarget on target surface
 };
