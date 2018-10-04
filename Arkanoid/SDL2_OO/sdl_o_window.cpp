@@ -14,7 +14,7 @@ Sdl_o_window::Sdl_o_window(const char*t ,int posX,int posY,int width,int height,
 
 void Sdl_o_window::fillWindowWithSurface(Sdl_o_surface surface)
 {
-  SDL_Rect srcBg = { 0,128, 96,128 };
+  SDL_Rect srcBg = { 0,128, 96,128 };//position de la texture de background dans le fichier
   // remplit le fond
   SDL_Rect dest = { 0,0,0,0 };
   for (int j = 0; j < m_win_surf.getSurfPtr()->h; j+=128)
@@ -25,6 +25,11 @@ void Sdl_o_window::fillWindowWithSurface(Sdl_o_surface surface)
 
       SDL_BlitSurface(surface.getSurfPtr(), &srcBg, m_win_surf.getSurfPtr(), &dest);
     }
+}
+
+Sdl_o_surface Sdl_o_window::getSurface()
+{
+  return m_win_surf;
 }
 
 void Sdl_o_window::updateScreen()

@@ -9,6 +9,15 @@ Sdl_o_rectangle::Sdl_o_rectangle(int x1, int y1, int w1, int h1)
   rect = { m_x, m_y, m_width, m_height };
 };
 
+Sdl_o_rectangle::Sdl_o_rectangle()
+{
+  m_x = 0;
+  m_y = 0;
+  m_width = 0;
+  m_height = 0;
+  rect = { m_x, m_y, m_width, m_height };
+}
+
 SDL_Rect Sdl_o_rectangle::getRect()
 {
   return rect;

@@ -21,6 +21,7 @@ class Sdl_o_window
    Sdl_o_window(const char *t, int posX, int posY, int width, int height, int f);
    void fillWindowWithSurface(Sdl_o_surface surface); // source surface that will fill the current window
    void updateScreen();
+   Sdl_o_surface getSurface();
 };
 
 #endif
