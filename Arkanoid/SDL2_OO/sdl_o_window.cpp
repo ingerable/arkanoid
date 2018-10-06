@@ -9,7 +9,7 @@ Sdl_o_window::Sdl_o_window(const char*t ,int posX,int posY,int width,int height,
   m_windowHeight=height;
   m_flag=f;
   m_pWindow=SDL_CreateWindow(m_title,m_windowPositionX,m_windowPositionY,m_windowWidth,m_windowHeight,m_flag);
-  m_win_surf = sdl_o_surface(SDL_GetWindowSurface(m_pWindow));
+  m_win_surf = Sdl_o_surface(SDL_GetWindowSurface(m_pWindow));
 }
 
 void Sdl_o_window::fillWindowWithSurface(Sdl_o_surface surface)
@@ -35,4 +35,10 @@ Sdl_o_surface Sdl_o_window::getSurface()
 void Sdl_o_window::updateScreen()
 {
   SDL_UpdateWindowSurface(m_pWindow);
+}
+
+void Sdl_o_window::addGameObject(GameObject obj, Sdl_o_rectangle startPosition)
+{
+  const SDL_Rect ;
+  SDL_BlitSurface(obj.image.getSurfPtr(), obj.positionImage.getRect(), m_win_surf.getSurfPtr(), startPosition.getRect());
 }

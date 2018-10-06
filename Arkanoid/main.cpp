@@ -1,5 +1,8 @@
+#ifndef main_H
+#define main_H
 #include "./SDL2_OO/sdl_o_window.h"
 #include "./SDL2_OO/SDL2-2.0.8/include/SDL.h"
+#include "./header/ball.h"
 int main()
 {
 
@@ -8,6 +11,12 @@ int main()
   window.getSurface().setColor(true, 0);
   window.fillWindowWithSurface(bg);
 
+  //ball
+
+  Ball b = Ball(bg, Sdl_o_rectangle(0,128,96,128));
+  //window.blitSurfaceOn(b.)
+
+//start
 SDL_Event event;
 bool quit = false;
 while (!quit)
@@ -29,3 +38,5 @@ while (!quit)
 
   return 0;
 }
+
+#endif

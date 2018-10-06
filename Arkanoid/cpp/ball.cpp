@@ -1,7 +1,14 @@
 #include "./../header/ball.h"
 
-Ball::Ball(char *pathImage, Sdl_o_rectangle rect)
+Ball::Ball(){};
+
+/*Ball::Ball(const char *pathImage, Sdl_o_rectangle rect)
 {
-  this->image = Sdl_o_surface(pathImage);
-  this->positionImage = rect;
-}
+  GameObject::image = Sdl_o_surface(pathImage);
+  GameObject::positionImage = rect;
+}*/
+
+/*Sdl_o_surface Ball::getSurface()
+{
+  return this->image;
+}*/
