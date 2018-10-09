@@ -5,17 +5,16 @@
 
 class Ball: public GameObject
 {
-  private:
-    float x;
-    float y;
-    float speedX;
-    float speedY;
+  public:
+    float speedX = 2;
+    float speedY = 2;
 
   public:
     Ball();
+    void updatePosition(); //update the ball position based on speed
     using GameObject::GameObject; //parent constructor
-    //Ball(const char *pathImage ,Sdl_o_rectangle imagePosition); //path to the image containing the ball , position in the image (in pixel) of the ball
-    //Sdl_o_surface getSurface();
+    float getX();
+    float getY();
 };
 
 #endif

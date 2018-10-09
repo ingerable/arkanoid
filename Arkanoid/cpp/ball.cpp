@@ -2,13 +2,18 @@
 
 Ball::Ball(){};
 
-/*Ball::Ball(const char *pathImage, Sdl_o_rectangle rect)
+void Ball::updatePosition()
 {
-  GameObject::image = Sdl_o_surface(pathImage);
-  GameObject::positionImage = rect;
-}*/
+  this->position.m_x += speedX;
+  this->position.m_y += speedY;
+}
 
-/*Sdl_o_surface Ball::getSurface()
+float Ball::getX()
 {
-  return this->image;
-}*/
+  return this->position.getRect()->x;
+}
+
+float Ball::getY()
+{
+  return this->position.getRect()->y;
+}

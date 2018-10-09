@@ -22,7 +22,7 @@ class Sdl_o_window
  public:
    Sdl_o_window(const char *t, int posX, int posY, int width, int height, int f);
    void fillWindowWithSurface(Sdl_o_surface surface); // source surface that will fill the current window
-   void addGameObject(GameObject obj, Sdl_o_rectangle startPosition);
+   void drawGameObject(GameObject obj, Sdl_o_rectangle startPosition);
    void updateScreen();
    Sdl_o_surface getSurface();
 };

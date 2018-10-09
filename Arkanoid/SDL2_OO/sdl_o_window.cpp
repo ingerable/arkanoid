@@ -37,8 +37,7 @@ void Sdl_o_window::updateScreen()
   SDL_UpdateWindowSurface(m_pWindow);
 }
 
-void Sdl_o_window::addGameObject(GameObject obj, Sdl_o_rectangle startPosition)
+void Sdl_o_window::drawGameObject(GameObject obj, Sdl_o_rectangle startPosition)
 {
-  const SDL_Rect ;
   SDL_BlitSurface(obj.image.getSurfPtr(), obj.positionImage.getRect(), m_win_surf.getSurfPtr(), startPosition.getRect());
 }

@@ -7,8 +7,9 @@ class GameObject
   public:
     Sdl_o_surface image;
     Sdl_o_rectangle positionImage;
+    Sdl_o_rectangle position;
 
   public:
     GameObject();
-    GameObject(Sdl_o_surface img, Sdl_o_rectangle pos);
+    GameObject(Sdl_o_surface img, Sdl_o_rectangle pos, Sdl_o_rectangle startPos);
 };

@@ -18,7 +18,19 @@ Sdl_o_rectangle::Sdl_o_rectangle()
   rect = { m_x, m_y, m_width, m_height };
 }
 
-SDL_Rect Sdl_o_rectangle::getRect()
+SDL_Rect* Sdl_o_rectangle::getRect()
 {
-  return rect;
+  rect = { m_x, m_y, m_width, m_height };//update rect struct with attribute before returning rect
+  return &rect;
+}
+
+void Sdl_o_rectangle::setX(int x)
+{
+  m_x = x;
+}
+
+
+void Sdl_o_rectangle::setY(int y)
+{
+  m_y = y;
 }

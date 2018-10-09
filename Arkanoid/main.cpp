@@ -1,8 +1,8 @@
 #ifndef main_H
 #define main_H
 #include "./SDL2_OO/sdl_o_window.h"
-#include "./SDL2_OO/SDL2-2.0.8/include/SDL.h"
 #include "./header/ball.h"
+#include "./header/vault.h"
 int main()
 {
 
@@ -12,9 +12,12 @@ int main()
   window.fillWindowWithSurface(bg);
 
   //ball
+  Ball b = Ball(bg, Sdl_o_rectangle( 0,64,24,24 ), Sdl_o_rectangle(450,800,4,4));
+  bg.setColor(true,0);
 
-  Ball b = Ball(bg, Sdl_o_rectangle(0,128,96,128));
-  //window.blitSurfaceOn(b.)
+  //vault_
+  Vault v = Vault(bg , Sdl_o_rectangle(128,0,128,32),Sdl_o_rectangle(450,450,30,30));
+  bg.setColor(true,0);
 
 //start
 SDL_Event event;
@@ -31,8 +34,14 @@ while (!quit)
       default: break;
     }
   }
+
+  b.updatePosition(); //update rectangle attribute of ball
+  window.drawGameObject((GameObject) b, b.position); //draw ball object on window
+  window.drawGameObject((GameObject) v, v.position);
   window.updateScreen();
-  SDL_Delay(40); // 50 fps
+  window.fillWindowWithSurface(bg); // redraw the background
+
+  SDL_Delay(10); // 50 fps
 }
 
 
