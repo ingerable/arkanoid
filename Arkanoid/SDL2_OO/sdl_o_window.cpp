@@ -1,5 +1,7 @@
 #include "sdl_o_window.h"
 
+Sdl_o_window::Sdl_o_window(){}
+
 Sdl_o_window::Sdl_o_window(const char*t ,int posX,int posY,int width,int height,int f)
 {
   m_title=t;

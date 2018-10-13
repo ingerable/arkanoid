@@ -3,9 +3,9 @@
 #include "./SDL2_OO/sdl_o_window.h"
 #include "./header/ball.h"
 #include "./header/vault.h"
+
 int main()
 {
-
   Sdl_o_window	window = Sdl_o_window("Arknoid", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 900, 900, SDL_WINDOW_SHOWN);
   Sdl_o_surface bg = Sdl_o_surface("./bmp/sprites.bmp");
   window.getSurface().setColor(true, 0);
@@ -16,7 +16,7 @@ int main()
   bg.setColor(true,0);
 
   //vault_
-  Vault v = Vault(bg , Sdl_o_rectangle(128,0,128,32),Sdl_o_rectangle(450,450,30,30));
+  Vault v = Vault(bg , Sdl_o_rectangle(128,0,128,32),Sdl_o_rectangle((window.m_windowWidth/2)-30,window.m_windowHeight-30,30,30));
   bg.setColor(true,0);
 
 //start

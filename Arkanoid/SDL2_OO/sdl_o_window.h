@@ -9,7 +9,7 @@
 
 class Sdl_o_window
 {
-  private:
+public:
     SDL_Window* m_pWindow = nullptr;
     Sdl_o_surface m_win_surf;
     const char *m_title;
@@ -20,6 +20,7 @@ class Sdl_o_window
     Uint32 m_flag;
 
  public:
+   Sdl_o_window();
    Sdl_o_window(const char *t, int posX, int posY, int width, int height, int f);
    void fillWindowWithSurface(Sdl_o_surface surface); // source surface that will fill the current window
    void drawGameObject(GameObject obj, Sdl_o_rectangle startPosition);
