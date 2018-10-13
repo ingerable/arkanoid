@@ -12,6 +12,7 @@ int main()
   window.getSurface().setColor(true, 0);
   window.fillWindowWithSurface(bg);*/
   Game g = Game(900,900,SOLO,"./bmp/sprites.bmp");
+  Game g1 = Game(900,900,SOLO,"./bmp/sprites.bmp");
 
   //ball
   /*Ball b = Ball(bg, Sdl_o_rectangle( 0,64,24,24 ), Sdl_o_rectangle(450,800,4,4));

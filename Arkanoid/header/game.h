@@ -12,7 +12,7 @@ class Game // this class handle gamemode for only ONE window but one or more pla
   public:
     std::vector<Ball> m_balls; //list of ball in the current game, in case ball split in 3 energy ball
     Sdl_o_window m_window;
-    std::vector<Ball> m_vaults; //list of vaults , in case we are in cooperative mode
+    std::vector<Vault> m_vaults; //list of vaults , in case we are in cooperative mode
     Sdl_o_surface m_bg; // image containing sprites
     int score = 0;
 
