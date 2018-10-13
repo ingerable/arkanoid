@@ -14,8 +14,11 @@ class Game // this class handle gamemode for only ONE window but one or more pla
     Sdl_o_window m_window;
     std::vector<Ball> m_vaults; //list of vaults , in case we are in cooperative mode
     Sdl_o_surface m_bg; // image containing sprites
+    int score = 0;
 
     void initSolo();
     void initCoop();
+    void refreshWindowAndObjects();
+    void startGame();
     Game(int sizeX, int sizeY, int mode, char *bg);
 };
