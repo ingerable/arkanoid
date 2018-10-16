@@ -1,15 +1,13 @@
 #include "./../header/game.h"
 
-Game::Game(int sizeX, int sizeY, int mode, char *bg)
+Game::Game(int x1, int x2 , int y1, int y2, int mode, Sdl_o_surface s, Sdl_o_window w)
 {
-  m_window = Sdl_o_window("Arknoid", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, sizeX, sizeY, SDL_WINDOW_SHOWN);
-  m_bg = Sdl_o_surface(bg);
-  m_bg.setColor(true,0);
-
-  //fill the window with the bg
-  m_window.getSurface().setColor(true, 0);
-  m_window.fillWindowWithSurface(m_bg);
-
+  m_x1 = x1;
+  m_x2 = x2;
+  m_y1 = y1;
+  m_y2 = y2;
+  m_bg = s;
+  m_window = w;
   if(mode == SOLO)
   {
     initSolo();
@@ -19,47 +17,78 @@ Game::Game(int sizeX, int sizeY, int mode, char *bg)
 //init the different games object for SOLO mode
 void Game::initSolo()
 {
-  m_balls.push_back(Ball(m_bg, Sdl_o_rectangle( 0,64,24,24 ), Sdl_o_rectangle(450,800,4,4)));
-  m_vaults.push_back(Vault(m_bg , Sdl_o_rectangle(128,0,128,32),Sdl_o_rectangle((m_window.m_windowWidth/2)-30,m_window.m_windowHeight-30,30,30)));
-  startGame();
+  int ball_vault_x = (m_x2+m_x1)/2; // x position for the vault and the ball
+
+  m_balls.push_back(Ball(m_bg, Sdl_o_rectangle( 80,66,16,16 ), Sdl_o_rectangle(ball_vault_x,m_y2-90,60,60)));
+  m_vaults.push_back(Vault(m_bg , Sdl_o_rectangle(383,175,90,18),Sdl_o_rectangle(ball_vault_x,m_y2-30,60,60)));
 }
 
-void Game::startGame()
-{
-  SDL_Event event;
-  bool quit = false;
-  while (!quit)
-  {
-    while (!quit && SDL_PollEvent(&event))
-    {
-      switch (event.type)
-      {
-        case SDL_QUIT:
-          quit = true;
-          break;
-        default: break;
-      }
-    }
-    refreshWindowAndObjects();
-    SDL_Delay(10); // 50 fps
-  }
-}
-
-void Game::refreshWindowAndObjects()
+void Game::updatePosition()
 {
   //update balls (we will have to check collisions here)
   for(Ball& b : m_balls) {
     b.updatePosition(); //update rectangle attribute of ball
+    ballCollision(b);
     m_window.drawGameObject((GameObject) b, b.position); //draw ball object on window
   }
 
   //update vaults
-  for(Vault& v : m_vaults) {    
+  for(Vault& v : m_vaults) {
     m_window.drawGameObject((GameObject) v, v.position); //draw ball object on window
   }
+}
 
-  m_window.updateScreen();
-  m_window.fillWindowWithSurface(m_bg); // redraw the background
+void Game::ballCollision(Ball &ball)
+{
+  if(ball.getX()<=m_x1)
+  {
+    ball.speedX = -ball.speedX;
+  }
+  else if(ball.getX()>=m_x2)
+  {
+    ball.speedX = -ball.speedX;
+  }
 
-  SDL_Delay(10); // 50 fps
+  if(ball.getY()<=m_y1)
+  {
+    ball.speedY = -ball.speedY;
+    std::cout<<"perdu";//loose a life
+  }
+  else if(ball.getY()>=m_y2)
+  {
+    ball.speedY = -ball.speedY;
+  }
+}
+
+Sdl_o_rectangle Game::getTexturePosition()
+{
+  if(m_current_level>0 && m_current_level<7) //level 1
+  {
+    return Sdl_o_rectangle(0,128,48,63);
+  }
+  else if(m_current_level>7 && m_current_level<14) //level 2
+  {
+    return Sdl_o_rectangle(64,128,48,63);
+  }
+  else if(m_current_level>14 && m_current_level<21) //level 3
+  {
+    return Sdl_o_rectangle(128,128,48,63);
+  }
+  else if(m_current_level>21 && m_current_level<28) //level 4
+  {
+    return Sdl_o_rectangle(192,128,48,63);
+  }
+  else if(m_current_level>28 && m_current_level<32) //level 5
+  {
+    return Sdl_o_rectangle(256,128,48,63);
+  }
+  else if(m_current_level==33) //level 6
+  {
+    return Sdl_o_rectangle(320,128,48,63);
+  }
+}
+
+Sdl_o_rectangle Game::getBorders()
+{
+  return Sdl_o_rectangle(m_x1,m_y1, m_x2-m_x1, m_y2-m_y1);
 }
