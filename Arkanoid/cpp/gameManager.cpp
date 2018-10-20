@@ -8,8 +8,9 @@ GameManager::GameManager(int sizeWindowX, int sizeWindowY, char *bg, int mode)
   m_window.getSurface().setColor(true, 0);
 
   //test (définir les dimensions des "games" automatiquement en fonction de la taille de la window pour plus tard)
-  m_games.push_back(Game(0, 1600, 0, 900 ,1, m_bg, m_window));
-  m_games.push_back(Game(800, 1600, 0, 900, 1, m_bg, m_window));
+  Game g1 = Game(0, 1600, 0, 900 ,1, m_bg, m_window);
+  m_games.push_back(g1);
+  //m_games.push_back(Game(800, 1600, 0, 900, 1, m_bg, m_window));
 
   startGame();
 }
@@ -28,14 +29,12 @@ void GameManager::startGame()
         case SDL_QUIT:
           quit = true;
           break;
-        default: break;
         case SDL_KEYDOWN:
   				switch (event.key.keysym.sym)
   				{
-  					// touche clavier
-  					case SDLK_LEFT:   std::cout<<"test"; break;
-  					case SDLK_RIGHT:  break;
-  					case SDLK_ESCAPE: break;
+            // touche clavier
+  					case SDLK_LEFT:  m_games[PLAYER_1].updateVaultsPosition(-10, 0); break;
+  					case SDLK_RIGHT: m_games[PLAYER_1].updateVaultsPosition(+10, 0); break;
   					default: break;
   				}
   				break;

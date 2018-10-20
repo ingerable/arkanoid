@@ -17,7 +17,7 @@ Game::Game(int x1, int x2 , int y1, int y2, int mode, Sdl_o_surface s, Sdl_o_win
 //init the different games object for SOLO mode
 void Game::initSolo()
 {
-  int ball_vault_x = (m_x2+m_x1)/2; // x position for the vault and the ball
+  int ball_vault_x = (m_x2+m_x1)/2; // x position for the vault and the ball (middle of window)
 
   m_balls.push_back(Ball(m_bg, Sdl_o_rectangle( 80,66,16,16 ), Sdl_o_rectangle(ball_vault_x,m_y2-90,60,60)));
   m_vaults.push_back(Vault(m_bg , Sdl_o_rectangle(383,175,90,18),Sdl_o_rectangle(ball_vault_x,m_y2-30,60,60)));
@@ -25,20 +25,23 @@ void Game::initSolo()
 
 void Game::updatePosition()
 {
-  //update balls (we will have to check collisions here)
-  for(Ball& b : m_balls) {
-    b.updatePosition(); //update rectangle attribute of ball
-    ballCollision(b);
-    m_window.drawGameObject((GameObject) b, b.position); //draw ball object on window
-  }
-
   //update vaults
   for(Vault& v : m_vaults) {
     m_window.drawGameObject((GameObject) v, v.position); //draw ball object on window
   }
+
+  //update balls (we will have to check collisions here)
+  for(Ball& b : m_balls) {
+    b.updatePosition(); //update rectangle attribute of ball
+    borderCollision(b);
+    vaultCollision(b);
+    m_window.drawGameObject((GameObject) b, b.position); //draw ball object on window
+  }
+
+
 }
 
-void Game::ballCollision(Ball &ball)
+void Game::borderCollision(Ball &ball)
 {
   if(ball.getX()<=m_x1)
   {
@@ -58,6 +61,20 @@ void Game::ballCollision(Ball &ball)
   {
     ball.speedY = -ball.speedY;
   }
+}
+
+void Game::vaultCollision(Ball &ball)
+{
+  for(Vault& v : m_vaults) {
+    if(ball.getX()<= (v.position.m_x+v.position.m_width) && ball.getX() >= (v.position.m_x))
+    {
+      if(ball.getY() == v.position.m_y)
+      {
+        ball.speedY = -ball.speedY;
+      }
+    }
+  }
+
 }
 
 Sdl_o_rectangle Game::getTexturePosition()
@@ -91,4 +108,14 @@ Sdl_o_rectangle Game::getTexturePosition()
 Sdl_o_rectangle Game::getBorders()
 {
   return Sdl_o_rectangle(m_x1,m_y1, m_x2-m_x1, m_y2-m_y1);
+}
+
+//add x and y to vault position
+void Game::updateVaultsPosition(int x, int y)
+{
+  for(Vault& v : m_vaults)
+  {
+    v.position.m_x += x;
+    v.position.m_y += y;
+  }
 }

@@ -1,5 +1,6 @@
 #include "./../header/game.h"
-
+#define PLAYER_1 0
+#define PLAYER_2 1
 class GameManager
 {
   public:

@@ -27,7 +27,9 @@ class Game // this class handle gamemode for only ONE window but one or more pla
     void startGame();
     Game(int x1, int x2 , int y1, int y2, int mode, Sdl_o_surface s, Sdl_o_window w);
     void updatePosition();
-    void ballCollision(Ball &ball);
+    void borderCollision(Ball &ball);
+    void vaultCollision(Ball &ball);
     Sdl_o_rectangle getTexturePosition(); //get texture position depending on current level
     Sdl_o_rectangle getBorders();
+    void updateVaultsPosition(int x, int y);
 };
