@@ -15,7 +15,7 @@ class Game // this class handle gamemode for only ONE window but one or more pla
     Sdl_o_surface m_bg; // image containing sprites
     Sdl_o_window m_window; //window containing one or more games (for the moment 1 or 2)
     int score = 0;
-    int m_current_level = 33;
+    int m_current_level = 1;
     int m_x1; // borders of the game
     int m_x2;
     int m_y1;
@@ -31,5 +31,6 @@ class Game // this class handle gamemode for only ONE window but one or more pla
     void vaultCollision(Ball &ball);
     Sdl_o_rectangle getTexturePosition(); //get texture position depending on current level
     Sdl_o_rectangle getBorders();
+    void parseLevelText();
     void updateVaultsPosition(int x, int y);
 };

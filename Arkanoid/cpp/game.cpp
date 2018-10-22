@@ -19,8 +19,8 @@ void Game::initSolo()
 {
   int ball_vault_x = (m_x2+m_x1)/2; // x position for the vault and the ball (middle of window)
 
-  m_balls.push_back(Ball(m_bg, Sdl_o_rectangle( 80,66,16,16 ), Sdl_o_rectangle(ball_vault_x,m_y2-90,60,60)));
-  m_vaults.push_back(Vault(m_bg , Sdl_o_rectangle(383,175,90,18),Sdl_o_rectangle(ball_vault_x,m_y2-30,60,60)));
+  m_balls.push_back(Ball(m_bg, Sdl_o_rectangle( 4,66,8,8 ), Sdl_o_rectangle(ball_vault_x,m_y2-90,60,60)));
+  m_vaults.push_back(Vault(m_bg , Sdl_o_rectangle(384,127,65,17),Sdl_o_rectangle(ball_vault_x,m_y2-30,60,60)));
 }
 
 void Game::updatePosition()
@@ -68,7 +68,7 @@ void Game::vaultCollision(Ball &ball)
   for(Vault& v : m_vaults) {
     if(ball.getX()<= (v.position.m_x+v.position.m_width) && ball.getX() >= (v.position.m_x))
     {
-      if(ball.getY() == v.position.m_y)
+      if(ball.getY() >= v.position.m_y)
       {
         ball.speedY = -ball.speedY;
       }
@@ -118,4 +118,10 @@ void Game::updateVaultsPosition(int x, int y)
     v.position.m_x += x;
     v.position.m_y += y;
   }
+}
+
+
+void Game::parseLevelText()
+{
+
 }

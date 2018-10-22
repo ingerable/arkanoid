@@ -1,6 +1,9 @@
 #include "./../header/game.h"
 #define PLAYER_1 0
 #define PLAYER_2 1
+#define block_w 31
+#define block_h 15
+
 class GameManager
 {
   public:
