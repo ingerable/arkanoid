@@ -1,4 +1,5 @@
 #include "./../header/game.h"
+#include <unistd.h>
 
 Game::Game(int x1, int x2 , int y1, int y2, int mode, Sdl_o_surface s, Sdl_o_window w)
 {
@@ -10,6 +11,7 @@ Game::Game(int x1, int x2 , int y1, int y2, int mode, Sdl_o_surface s, Sdl_o_win
   m_window = w;
   if(mode == SOLO)
   {
+    parseLevelText();
     initSolo();
   }
 }
@@ -124,4 +126,22 @@ void Game::updateVaultsPosition(int x, int y)
 void Game::parseLevelText()
 {
 
+  char buffer[256];
+  char *val = getcwd(buffer, sizeof(buffer));
+  std::string path = std::string(buffer);
+
+  int x;
+  std::ifstream fileLevel;
+  std::string txtPath = path + "/levels/" + std::to_string(m_current_level) + ".txt";
+  fileLevel.open(txtPath);
+  if(!fileLevel) {
+    std::cout<<"problem while opening level file"<<"\n";
+    std::cout<<"path: "<<txtPath;
+    exit(1);
+  }
+
+  while (fileLevel >> x) {
+      std::cout<<x<<"\n";
+  }
+  fileLevel.close();
 }

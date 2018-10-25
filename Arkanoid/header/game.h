@@ -3,6 +3,9 @@
 #include <vector>
 #include "./../SDL2_OO/sdl_o_window.h"
 #include "./../SDL2_OO/sdl_o_surface.h"
+#include <fstream>
+#include <iostream>
+#include <string>
 #define SOLO 1
 #define COOP 2
 
