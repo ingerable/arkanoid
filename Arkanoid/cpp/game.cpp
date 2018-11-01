@@ -40,6 +40,10 @@ void Game::updatePosition()
     m_window.drawGameObject((GameObject) b, b.position); //draw ball object on window
   }
 
+  //update walls
+  for(Wall& w : m_walls) {
+    m_window.drawGameObject((GameObject) w, w.position); //draw ball object on window
+  }
 
 }
 
@@ -130,7 +134,7 @@ void Game::parseLevelText()
   char *val = getcwd(buffer, sizeof(buffer));
   std::string path = std::string(buffer);
 
-  int x;
+  char x;
   std::ifstream fileLevel;
   std::string txtPath = path + "/levels/" + std::to_string(m_current_level) + ".txt";
   fileLevel.open(txtPath);
@@ -140,8 +144,34 @@ void Game::parseLevelText()
     exit(1);
   }
 
+  int xCursor = 0;
+  int yCursor = 0;
+
   while (fileLevel >> x) {
-      std::cout<<x<<"\n";
+    if(x == '0') //blank space
+    {
+      xCursor += Wall::widthSpritePicture;
+    }else if(x == 'n')//jump a line
+    {
+      yCursor += Wall::heightSpritePicture;
+    }
+    else // place a wall
+    {
+      int8_t ix = x - '0'; //conversion from char to int representation
+      Wall wall(ix, this->m_current_level, this->m_bg,xCursor,yCursor);
+      //update cursor
+      if( (xCursor+Wall::widthSpritePicture)>=this->m_x2) //xCursor exceed border
+      {
+        yCursor += Wall::heightSpritePicture;
+        xCursor = 0;
+      }else{
+        xCursor += Wall::widthSpritePicture;
+      }
+
+      m_walls.push_back(wall);
+    }
+
+
   }
   fileLevel.close();
 }
