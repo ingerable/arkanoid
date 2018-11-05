@@ -1,9 +1,7 @@
+#pragma once
 #include <string>
 #include <iostream>
 #include "sdl_o_rectangle.h"
-#ifndef Sdl_o_surface
-#define sdl_o_surface
-
 class Sdl_o_surface
 {
   private:
@@ -17,5 +15,3 @@ class Sdl_o_surface
    int blitSurfaceOn(SDL_Surface &target, SDL_Rect &rectSrc,SDL_Rect &rectTarget);
    void setColor(int flag, Uint32 key);
 };
-
-#endif
