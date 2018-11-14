@@ -67,7 +67,7 @@ void Game::borderCollision(Ball &ball)
   else if(ball.getY()>=m_y2)
   {
     ball.speedY = 0;
-    std::cout<<"perdu";//loose a life
+    //loose a life here
   }
 }
 
@@ -188,30 +188,58 @@ void Game::parseLevelText()
 
   int xCursor = 0;
   int yCursor = 0;
+  char code[2]; // can be one or 2 char code
+  int i=0;
+  code[1] = 'n'; // for the moment there is noting at the index 1
 
   while (fileLevel >> x) {
+    i = 0;
+    while(x!=';' && i!=2) //iterate until separator, and a code cannot be longer than 2 char
+    {
+      code[i] = x;
+      fileLevel >> x;
+      i++;
+    }
+    //std::cout<<code[0]<<"\n";
 
-    if(x == '0') //blank space
+    if(code[0] == '0') //blank space
     {
       xCursor += Wall::widthSpritePicture;
 
-    }else if(x == 'n')//jump a line
+    }else if(code[0] == 'n')//jump a line
     {
       yCursor += Wall::heightSpritePicture;
     }
     else // place a wall
     {
-      int8_t ix = x - '0'; //conversion from char to int representation
-      Wall wall(ix, this->m_current_level, this->m_bg,xCursor,yCursor);
-      //update cursor
-      if( (xCursor+Wall::widthSpritePicture)>=this->m_x2) //xCursor exceed border
+      if(code[1]=='n') //one char code
       {
-        yCursor += Wall::heightSpritePicture;
-        xCursor = 0;
-      }else{
-        xCursor += Wall::widthSpritePicture;
+        int8_t ix = code[0] - '0'; //conversion from char to int representation
+        Wall wall(ix, this->m_current_level, this->m_bg,xCursor,yCursor);
+        //update cursor
+        if( (xCursor+Wall::widthSpritePicture)>=this->m_x2) //xCursor exceed border
+        {
+          yCursor += Wall::heightSpritePicture;
+          xCursor = 0;
+        }else{
+          xCursor += Wall::widthSpritePicture;
+        }
+        m_walls.push_back(wall);
+      } else { // 2 character code
+        int ix; //conversion from char array to int representation
+        sscanf(code,"%d",&ix);
+        Wall wall(ix, this->m_current_level, this->m_bg,xCursor,yCursor);
+        //update cursor
+        if( (xCursor+Wall::widthSpritePicture)>=this->m_x2) //xCursor exceed border
+        {
+          yCursor += Wall::heightSpritePicture;
+          xCursor = 0;
+        }else{
+          xCursor += Wall::widthSpritePicture;
+        }
+        m_walls.push_back(wall);
       }
-      m_walls.push_back(wall);
+
     }
   }
   fileLevel.close();

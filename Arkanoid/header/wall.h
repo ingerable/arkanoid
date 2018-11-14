@@ -16,7 +16,9 @@ class Wall: public GameObject
     //constants static
     static const int widthSpritePicture = 30;
     static const int heightSpritePicture = 13;
-    static const int margin = 0;
+    static const int margin = 2;
+    static const int widthSpritePictureWithMargin = widthSpritePicture+margin;
+    static const int heightSpritePictureWithMargin = heightSpritePicture+margin;
 
     Wall(int8_t type, int currentGameLevel, Sdl_o_surface bg, int xPosition, int yPosition);
     void chooseWallType(int8_t type, int currentGameLevel);

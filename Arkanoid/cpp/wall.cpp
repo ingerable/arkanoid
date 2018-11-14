@@ -2,7 +2,7 @@
 
 Wall::Wall(int8_t type, int currentGameLevel, Sdl_o_surface bg, int xPosition, int yPosition)
 {
-  this->position = Sdl_o_rectangle(xPosition, yPosition, Wall::widthSpritePicture, Wall::heightSpritePicture);
+  this->position = Sdl_o_rectangle(xPosition, yPosition, Wall::widthSpritePictureWithMargin, Wall::heightSpritePictureWithMargin);
   this->type = type;
   this->image = bg;
   scoreAndSprite();
@@ -14,10 +14,10 @@ void Wall::chooseWallType(int8_t type, int currentGameLevel)
   if(type>=1 && type<=12) // normal wall
   {
     initNormalWall();
-  }else if(type>=13 && type<=18) // hard wall
+  }else if(type==13) // hard wall
   {
     initHardWall(currentGameLevel);
-  }else if(type>=19 && type<= 22) // indestructible
+  }else if(type==14) // indestructible
   {
     initIndestructibleWall();
   }
@@ -75,83 +75,58 @@ void Wall::scoreAndSprite()
 {
   if(this->type==1)//50 points
   {
-    this->positionImage = Sdl_o_rectangle(0,0,widthSpritePicture,heightSpritePicture);
+    this->positionImage = Sdl_o_rectangle(0,0,widthSpritePictureWithMargin,heightSpritePictureWithMargin);
     this->points = 50;
   }else if(this->type==2)//50
   {
-    this->positionImage = Sdl_o_rectangle(widthSpritePicture+margin,0,widthSpritePicture,heightSpritePicture);
+    this->positionImage = Sdl_o_rectangle(widthSpritePictureWithMargin,0,widthSpritePictureWithMargin,heightSpritePictureWithMargin);
     this->points = 50;
   }else if(this->type==3)//60
   {
-    this->positionImage = Sdl_o_rectangle(widthSpritePicture*2+margin,0,widthSpritePicture,heightSpritePicture);
+    this->positionImage = Sdl_o_rectangle( (widthSpritePictureWithMargin)*2,0,widthSpritePictureWithMargin,heightSpritePictureWithMargin);
     this->points = 60;
   }else if(this->type==4)//60
   {
-    this->positionImage = Sdl_o_rectangle(widthSpritePicture*3+margin,0+margin,widthSpritePicture,heightSpritePicture);
+    this->positionImage = Sdl_o_rectangle( (widthSpritePictureWithMargin)*3,0,widthSpritePictureWithMargin,heightSpritePictureWithMargin);
     this->points = 60;
   }else if(this->type==5)//70
   {
-    this->positionImage = Sdl_o_rectangle(widthSpritePicture*4+margin,0,widthSpritePicture,heightSpritePicture);
+    this->positionImage = Sdl_o_rectangle( (widthSpritePictureWithMargin)*4,0,widthSpritePictureWithMargin,heightSpritePictureWithMargin);
     this->points = 70;
   }else if(this->type==6)//70
   {
-    this->positionImage = Sdl_o_rectangle(widthSpritePicture*5+margin,0,widthSpritePicture,heightSpritePicture);
+    this->positionImage = Sdl_o_rectangle(widthSpritePictureWithMargin*5,0,widthSpritePictureWithMargin,heightSpritePictureWithMargin);
     this->points = 70;
   }else if(this->type==7)//80
   {
-    this->positionImage = Sdl_o_rectangle(widthSpritePicture,heightSpritePicture+margin,widthSpritePicture,heightSpritePicture);
+    this->positionImage = Sdl_o_rectangle(widthSpritePictureWithMargin,heightSpritePictureWithMargin,widthSpritePictureWithMargin,heightSpritePictureWithMargin);
     this->points = 80;
   }else if(this->type==8)//90
   {
-    this->positionImage = Sdl_o_rectangle(widthSpritePicture*2,heightSpritePicture+margin,widthSpritePicture,heightSpritePicture);
+    this->positionImage = Sdl_o_rectangle(widthSpritePictureWithMargin*2,heightSpritePictureWithMargin,widthSpritePictureWithMargin,heightSpritePictureWithMargin);
     this->points = 90;
   }else if(this->type==9)//100
   {
-    this->positionImage = Sdl_o_rectangle(widthSpritePicture*3,heightSpritePicture+margin,widthSpritePicture,heightSpritePicture);
+    this->positionImage = Sdl_o_rectangle(widthSpritePictureWithMargin*3,heightSpritePictureWithMargin,widthSpritePictureWithMargin,heightSpritePictureWithMargin);
     this->points = 100;
   }else if(this->type==10)//110
   {
-    this->positionImage = Sdl_o_rectangle(widthSpritePicture*4,heightSpritePicture+margin,widthSpritePicture,heightSpritePicture);
+    this->positionImage = Sdl_o_rectangle(widthSpritePictureWithMargin*4,heightSpritePictureWithMargin,widthSpritePictureWithMargin,heightSpritePictureWithMargin);
     this->points = 110;
   }else if(this->type==11)//120
   {
-    this->positionImage = Sdl_o_rectangle(widthSpritePicture*5,heightSpritePicture+margin,widthSpritePicture,heightSpritePicture);
+    this->positionImage = Sdl_o_rectangle(widthSpritePictureWithMargin*5,heightSpritePictureWithMargin,widthSpritePictureWithMargin,heightSpritePictureWithMargin);
     this->points = 120;
   }else if(this->type == 12)
   {
-    this->positionImage = Sdl_o_rectangle(widthSpritePicture*3,(heightSpritePicture+margin)*2,widthSpritePicture,heightSpritePicture);
+    this->positionImage = Sdl_o_rectangle(widthSpritePictureWithMargin*3,(heightSpritePictureWithMargin)*2,widthSpritePictureWithMargin,heightSpritePictureWithMargin);
     this->points = 120;
   }else if(this->type == 13)//hard wall
   {
-    this->positionImage = Sdl_o_rectangle(0,(heightSpritePicture+margin)*2,widthSpritePicture,heightSpritePicture);
-  }else if(this->type == 14)
+    this->positionImage = Sdl_o_rectangle(0,(heightSpritePictureWithMargin)*2,widthSpritePictureWithMargin,heightSpritePictureWithMargin);
+  }else if(this->type == 14)//indestructible wall
   {
-    this->positionImage = Sdl_o_rectangle(widthSpritePicture,(heightSpritePicture+margin)*2,widthSpritePicture,heightSpritePicture);
-  }else if(this->type == 15)
-  {
-    this->positionImage = Sdl_o_rectangle((widthSpritePicture+margin)*2,(heightSpritePicture+margin)*2,widthSpritePicture,heightSpritePicture);
-  }else if(this->type == 16)
-  {
-    this->positionImage = Sdl_o_rectangle( (widthSpritePicture+margin)*4,(heightSpritePicture+margin)*2,widthSpritePicture,heightSpritePicture);
-  }else if(this->type == 17)
-  {
-    this->positionImage = Sdl_o_rectangle( (widthSpritePicture+margin)*5,(heightSpritePicture+margin)*2,widthSpritePicture,heightSpritePicture);
-  }else if(this->type == 18)//indestructible wall
-  {
-    this->positionImage = Sdl_o_rectangle(0,(heightSpritePicture+margin)*3,widthSpritePicture,heightSpritePicture);
-  }else if(this->type == 19)
-  {
-    this->positionImage = Sdl_o_rectangle(widthSpritePicture,(heightSpritePicture+margin)*3,widthSpritePicture,heightSpritePicture);
-  }else if(this->type == 20)
-  {
-    this->positionImage = Sdl_o_rectangle(widthSpritePicture*2,(heightSpritePicture+margin)*3,widthSpritePicture,heightSpritePicture);
-  }else if(this->type == 21)
-  {
-    this->positionImage = Sdl_o_rectangle(widthSpritePicture*4,(heightSpritePicture+margin)*3,widthSpritePicture,heightSpritePicture);
-  }else if(this->type == 22)
-  {
-    this->positionImage = Sdl_o_rectangle(widthSpritePicture*5  ,(heightSpritePicture+margin)*3,widthSpritePicture,heightSpritePicture);
+    this->positionImage = Sdl_o_rectangle(0,(heightSpritePictureWithMargin)*3,widthSpritePictureWithMargin,heightSpritePictureWithMargin);
   }
-
 
 }
