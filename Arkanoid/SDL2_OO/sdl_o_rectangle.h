@@ -1,6 +1,6 @@
 #ifndef sdl_o_rectangle_h
 #define sdl_o_rectangle_h
-#include "SDL2-2.0.8/include/SDL.h"
+#include <SDL2/SDL.h>
 
 class Sdl_o_rectangle
 {

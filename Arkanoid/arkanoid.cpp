@@ -1,4 +1,3 @@
-#include "./SDL2_OO/SDL2-2.0.8/include/SDL.h"
 #include <SDL2/SDL.h>
 
 #include <iostream>

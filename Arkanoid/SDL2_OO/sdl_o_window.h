@@ -2,7 +2,6 @@
 #include <iostream>
 #ifndef sdl_o_window
 #define sdl_o_window
-#include "./SDL2-2.0.8/include/SDL.h"
 #include "sdl_o_surface.h"
 #include "./../header/gameObject.h"
 
