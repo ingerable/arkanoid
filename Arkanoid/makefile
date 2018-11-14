@@ -7,10 +7,10 @@
 # définition des variables
 CXX=g++
 CFLAGS=-c -g -W -Wall -Wextra -Werror -Wmissing-declarations -Wmissing-prototypes -Wredundant-decls -Wshadow -Wbad-function-cast -Wcast-qual -O3
-LDFLAGS=-g -W -Wall -Wextra -Werror -Wmissing-declarations -Wmissing-prototypes -Wredundant-decls -Wshadow -Wbad-function-cast -Wcast-qual -O3
+LDFLAGS=-g -W -Wall -Wextra -Werror -Wmissing-declarations -Wmissing-prototypes -Wredundant-decls -Wshadow -Wbad-function-cast -Wcast-qual -lSDL2 -O3
 #nom du programme exécutable
-EXEC = prog
-SRC = $(wildcard *.cpp)
+EXEC = a.out
+SRC = $(wildcard cpp/*.cpp SDL2_OO/*.cpp main.cpp)
 OBJ = $(SRC:.cpp=.o)
 
 # création de l'exécutable
@@ -24,7 +24,7 @@ $(EXEC) : $(OBJ)
 # suppression des fichiers temporaires
 clean:
 	@ rm -rf $(OBJ)
-	
+
 # suppression de tous les fichiers, sauf les sources,
 # en vue d'une reconstruction complète
 mrproper: clean
