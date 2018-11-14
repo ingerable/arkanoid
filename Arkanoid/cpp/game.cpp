@@ -95,7 +95,7 @@ void Game::wallsCollision(Ball &ball)
         {
           ball.speedY = -ball.speedY;
           i->health--;
-          if(i->health==0)
+          if(i->indestructible==0 && i->health==0)
           {
             m_walls.erase(i);
           }
@@ -111,8 +111,6 @@ void Game::wallsCollision(Ball &ball)
       }
       else
       {
-        //std::cout<<"ball Y :"<<ball.getY()<<"\n";
-        //std::cout<<"wall Y :"<< i->position.m_y+i->position.m_height<<"\n";
         ++i;
       }
   }
@@ -200,7 +198,6 @@ void Game::parseLevelText()
       fileLevel >> x;
       i++;
     }
-    //std::cout<<code[0]<<"\n";
 
     if(code[0] == '0') //blank space
     {
