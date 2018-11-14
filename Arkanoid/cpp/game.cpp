@@ -37,6 +37,7 @@ void Game::updatePosition()
     b.updatePosition(); //update rectangle attribute of ball
     borderCollision(b);
     vaultCollision(b);
+    wallsCollision(b);
     m_window.drawGameObject((GameObject) b, b.position); //draw ball object on window
   }
 
@@ -61,11 +62,12 @@ void Game::borderCollision(Ball &ball)
   if(ball.getY()<=m_y1)
   {
     ball.speedY = -ball.speedY;
-    std::cout<<"perdu";//loose a life
+
   }
   else if(ball.getY()>=m_y2)
   {
-    ball.speedY = -ball.speedY;
+    ball.speedY = 0;
+    std::cout<<"perdu";//loose a life
   }
 }
 
@@ -80,6 +82,46 @@ void Game::vaultCollision(Ball &ball)
       }
     }
   }
+}
+
+void Game::wallsCollision(Ball &ball)
+{
+  auto i = std::begin(m_walls);
+  while(i != std::end(m_walls))
+  {
+      if( ball.getY() <= (i->position.m_y+i->position.m_height) && ball.getY() >= i->position.m_y)
+      {
+        if(ball.getX()<= (i->position.m_x+i->position.m_width) && ball.getX() >= (i->position.m_x))
+        {
+          ball.speedY = -ball.speedY;
+          i->health--;
+          if(i->health==0)
+          {
+            m_walls.erase(i);
+          }
+          else
+          {
+            ++i;
+          }
+        }
+        else
+        {
+          ++i;
+        }
+      }
+      else
+      {
+        //std::cout<<"ball Y :"<<ball.getY()<<"\n";
+        //std::cout<<"wall Y :"<< i->position.m_y+i->position.m_height<<"\n";
+        ++i;
+      }
+  }
+
+
+}
+
+void hasCollision(Ball &ball, Wall wall)
+{
 
 }
 
@@ -148,9 +190,11 @@ void Game::parseLevelText()
   int yCursor = 0;
 
   while (fileLevel >> x) {
+
     if(x == '0') //blank space
     {
       xCursor += Wall::widthSpritePicture;
+
     }else if(x == 'n')//jump a line
     {
       yCursor += Wall::heightSpritePicture;
@@ -167,11 +211,8 @@ void Game::parseLevelText()
       }else{
         xCursor += Wall::widthSpritePicture;
       }
-
       m_walls.push_back(wall);
     }
-
-
   }
   fileLevel.close();
 }
