@@ -9,6 +9,7 @@ Game::Game(int x1, int x2 , int y1, int y2, int mode, Sdl_o_surface s, Sdl_o_win
   m_y2 = y2;
   m_bg = s;
   m_window = w;
+  borders = Sdl_o_rectangle(m_x1,m_y1, m_x2-m_x1, m_y2-m_y1);
   if(mode == SOLO)
   {
     parseLevelText();
@@ -149,11 +150,6 @@ Sdl_o_rectangle Game::getTexturePosition()
   {
     return Sdl_o_rectangle(320,128,48,63);
   }
-}
-
-Sdl_o_rectangle Game::getBorders()
-{
-  return Sdl_o_rectangle(m_x1,m_y1, m_x2-m_x1, m_y2-m_y1);
 }
 
 //add x and y to vault position

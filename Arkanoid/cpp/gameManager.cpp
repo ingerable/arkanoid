@@ -52,8 +52,7 @@ void GameManager::refreshWindowAndObjects()
   for(Game& g : m_games)
   {
     Sdl_o_rectangle rectTexture = g.getTexturePosition();
-    Sdl_o_rectangle rectBorders = g.getBorders();
-    m_window.fillWindowWithSurface(m_bg, rectBorders, rectTexture); // redraw the background
+    m_window.fillWindowWithSurface(m_bg, g.borders, rectTexture); // redraw the background
     g.updatePosition(); // update objects position for each game
   }
   m_window.updateScreen();
