@@ -15,6 +15,7 @@ Bonus::Bonus(char power, Sdl_o_surface img, Sdl_o_rectangle startPos, bool isAct
   this->position = startPos;
   this->isActive = isActive;
   this->isFalling = isFalling;
+  getTexturePosition();
 };
 
 void Bonus::getTexturePosition()
@@ -44,8 +45,12 @@ void Bonus::getTexturePosition()
   }
 }
 
-void Bonus::updatePositionAndSprite()
+void Bonus::updatePosition()
 {
-this->position.m_y += fallingSpeed;
- this->positionImage.setX( (this->positionImage.m_x+widthLetterCaseSprite+xBeggining)%xEnd);
+  this->position.m_y += fallingSpeed;
+  if(this->positionImage.m_x >= xEnd) {
+    this->positionImage.setX(xBeggining);
+  } else {
+      this->positionImage.setX( (this->positionImage.m_x+widthLetterCaseSprite));
+  }
 }

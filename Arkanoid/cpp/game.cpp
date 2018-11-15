@@ -44,9 +44,26 @@ void Game::updatePosition()
 
   //update walls
   for(Wall& w : m_walls) {
-    m_window.drawGameObject((GameObject) w, w.position); //draw ball object on window
+    m_window.drawGameObject((GameObject) w, w.position);
   }
 
+  for(Bonus& bo : m_bonus ) {
+    bo.updatePosition();
+    m_window.drawGameObject((GameObject) bo, bo.position);
+  }
+  bonusCollision();
+}
+
+void Game::bonusCollision()
+{
+  auto i = std::begin(m_bonus);
+  auto last = m_bonus.empty() ? m_bonus.end() : std::prev(m_bonus.end());
+  for (size_t i = 0; i < m_bonus.size(); i++) {
+    if(m_bonus[i].position.m_y>=m_y2) //bonus felt outside level, delete it
+      {
+          m_bonus.erase(m_bonus.begin()+i);
+      }
+  }
 }
 
 void Game::borderCollision(Ball &ball)
@@ -98,6 +115,9 @@ void Game::wallsCollision(Ball &ball)
           i->health--;
           if(i->indestructible==0 && i->health==0)
           {
+            if(i->power != '0') {
+                m_bonus.push_back(Bonus(i->power, m_bg, Sdl_o_rectangle(i->position.m_x, i->position.m_y, Bonus::widthLetterCaseSprite, Bonus::heightLetterCaseSprite), false, true));
+            }
             m_walls.erase(i);
           }
           else
@@ -116,11 +136,6 @@ void Game::wallsCollision(Ball &ball)
       }
   }
 
-
-}
-
-void hasCollision(Ball &ball, Wall wall)
-{
 
 }
 
