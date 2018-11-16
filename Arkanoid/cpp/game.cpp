@@ -22,8 +22,8 @@ void Game::initSolo()
 {
   int ball_vault_x = (m_x2+m_x1)/2; // x position for the vault and the ball (middle of window)
 
-  m_balls.push_back(Ball(m_bg, Sdl_o_rectangle( 4,66,8,8 ), Sdl_o_rectangle(ball_vault_x,m_y2-90,60,60)));
-  m_vaults.push_back(Vault(m_bg , Sdl_o_rectangle(384,127,65,17),Sdl_o_rectangle(ball_vault_x,m_y2-30,60,60)));
+  m_balls.push_back(Ball(m_bg, Sdl_o_rectangle(ball_vault_x,m_y2-90,60,60)));
+  m_vaults.push_back(Vault(m_bg,Sdl_o_rectangle(ball_vault_x,m_y2-30,60,60)));
 }
 
 void Game::updatePosition()
@@ -168,12 +168,14 @@ Sdl_o_rectangle Game::getTexturePosition()
 }
 
 //add x and y to vault position
-void Game::updateVaultsPosition(int x, int y)
+void Game::updateVaultsPosition(int x)
 {
   for(Vault& v : m_vaults)
   {
-    v.position.m_x += x;
-    v.position.m_y += y;
+    int tmpPosXLeft = v.position.m_x + x; //left of the vault
+    int tmpPosXRight = v.position.m_x + x + v.position.m_width; //right of the vault
+    if(tmpPosXLeft>=this->m_x1 && tmpPosXRight<=this->m_x2)
+    v.position.m_x = tmpPosXLeft;
   }
 }
 
@@ -199,17 +201,17 @@ void Game::parseLevelText()
   int yCursor = 0;
   char code[2]; // can be one or 2 char code
   int i=0;
-  code[1] = 'n'; // for the moment there is noting at the index 1
+  int ix; //code with int representation instead of array
 
   while (fileLevel >> x) {
     i = 0;
+    code[1] = 'n'; // for the moment there is noting at the index 1 of the code
     while(x!=';' && i!=2) //iterate until separator, and a code cannot be longer than 2 char
     {
       code[i] = x;
       fileLevel >> x;
       i++;
     }
-
     if(code[0] == '0') //blank space
     {
       xCursor += Wall::widthSpritePicture;
@@ -220,35 +222,39 @@ void Game::parseLevelText()
     }
     else // place a wall
     {
-      if(code[1]=='n') //one char code
+      if(code[1]=='n') // 1 char code
       {
-        int8_t ix = code[0] - '0'; //conversion from char to int representation
-        Wall wall(ix, this->m_current_level, this->m_bg,xCursor,yCursor);
-        //update cursor
-        if( (xCursor+Wall::widthSpritePicture)>=this->m_x2) //xCursor exceed border
-        {
-          yCursor += Wall::heightSpritePicture;
-          xCursor = 0;
-        }else{
-          xCursor += Wall::widthSpritePicture;
-        }
-        m_walls.push_back(wall);
-      } else { // 2 character code
-        int ix; //conversion from char array to int representation
-        sscanf(code,"%d",&ix);
-        Wall wall(ix, this->m_current_level, this->m_bg,xCursor,yCursor);
-        //update cursor
-        if( (xCursor+Wall::widthSpritePicture)>=this->m_x2) //xCursor exceed border
-        {
-          yCursor += Wall::heightSpritePicture;
-          xCursor = 0;
-        }else{
-          xCursor += Wall::widthSpritePicture;
-        }
-        m_walls.push_back(wall);
+        ix = code[0] - '0'; //conversion from char to int representation
+        placeWall(ix, xCursor, yCursor);
       }
-
+      else // 2 char code
+      {
+        sscanf(code,"%d",&ix); // 2 char array into 1 int
+        placeWall(ix,xCursor, yCursor);
+      }
     }
   }
   fileLevel.close();
+}
+
+void Game::placeWall(int code, int &xCursor, int &yCursor) // instantiate and place a wall with code at position (xCursor,yCursor)
+{
+  Wall wall;
+  if( (xCursor+Wall::widthSpritePicture)>this->m_x2) //xCursor exceed border
+  {
+    xCursor = 0;
+    yCursor += Wall::heightSpritePicture;
+    m_walls.push_back(Wall(code, this->m_current_level, this->m_bg,xCursor,yCursor));
+    xCursor += Wall::widthSpritePicture;
+  }
+  else
+  {
+      m_walls.push_back(Wall(code, this->m_current_level, this->m_bg,xCursor,yCursor));
+      xCursor += Wall::widthSpritePicture;
+  }
+  // else
+  // {
+  //   m_walls.push_back(Wall(code, this->m_current_level, this->m_bg,xCursor,yCursor));
+  //   xCursor += Wall::widthSpritePicture;
+  // }
 }

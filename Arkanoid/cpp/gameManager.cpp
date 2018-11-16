@@ -34,8 +34,8 @@ void GameManager::startGame()
   				switch (event.key.keysym.sym)
   				{
             // touche clavier
-  					case SDLK_LEFT:  m_games[PLAYER_1].updateVaultsPosition(-10, 0); break;
-  					case SDLK_RIGHT: m_games[PLAYER_1].updateVaultsPosition(+10, 0); break;
+  					case SDLK_LEFT:  m_games[PLAYER_1].updateVaultsPosition(-10); break;
+  					case SDLK_RIGHT: m_games[PLAYER_1].updateVaultsPosition(+10); break;
   					default: break;
   				}
   				break;

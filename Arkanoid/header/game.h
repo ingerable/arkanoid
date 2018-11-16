@@ -19,7 +19,7 @@ class Game // this class handle gamemode for only ONE window but one or more pla
     std::vector<Ball> m_balls; //list of ball in the current game, in case ball split in 3 energy ball
     std::vector<Vault> m_vaults; //list of vaults , in case we are in cooperative mode
     std::vector<Wall> m_walls; // lists of walls
-    std::vector<Bonus> m_bonus; //list of active bonus and falling bonus(non-active) 
+    std::vector<Bonus> m_bonus; //list of active bonus and falling bonus(non-active)
     Sdl_o_surface m_bg; // image containing sprites
     Sdl_o_window m_window; //window containing one or more games (for the moment 1 or 2)
     int score = 0;
@@ -41,10 +41,10 @@ class Game // this class handle gamemode for only ONE window but one or more pla
     void vaultCollision(Ball &ball);
     Sdl_o_rectangle getTexturePosition(); //get texture position depending on current level
     void parseLevelText();
-    void updateVaultsPosition(int x, int y);
+    void updateVaultsPosition(int x);
     void bonusCollision(); //check if bonus hit a vault => give bonus to player or if bonus felt outside level =>delete falling bonus
 
     //wall section
     void chooseWallType(char type);
-    void placeWall(char t);
+    void placeWall(int code, int &xCursor, int &yCursor);
 };

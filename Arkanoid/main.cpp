@@ -6,7 +6,7 @@
 int main()
 {
 
-  GameManager gm(13*block_w,25*block_h,"./bmp/sprites2.bmp", 1);
+  GameManager gm(13*Wall::widthSpritePicture,25*Wall::heightSpritePicture,"./bmp/sprites2.bmp", 1);
 
   return 0;
 }
