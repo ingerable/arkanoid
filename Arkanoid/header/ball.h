@@ -11,6 +11,8 @@ class Ball: public GameObject
 
   public:
     Ball();
+    Ball(Sdl_o_surface img, Sdl_o_rectangle startPos);
+    void getTexturePosition();
     void updatePosition(); //update the ball position based on speed
     using GameObject::GameObject; //parent constructor
     float getX();
