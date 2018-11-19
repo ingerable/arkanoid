@@ -252,9 +252,4 @@ void Game::placeWall(int code, int &xCursor, int &yCursor) // instantiate and pl
       m_walls.push_back(Wall(code, this->m_current_level, this->m_bg,xCursor,yCursor));
       xCursor += Wall::widthSpritePicture;
   }
-  // else
-  // {
-  //   m_walls.push_back(Wall(code, this->m_current_level, this->m_bg,xCursor,yCursor));
-  //   xCursor += Wall::widthSpritePicture;
-  // }
 }
