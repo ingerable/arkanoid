@@ -6,8 +6,8 @@
 class Ball: public GameObject
 {
   public:
-    float speedX = -2;
-    float speedY = -2;
+    float speedX = -2.5;
+    float speedY = -2.5;
 
   public:
     Ball();

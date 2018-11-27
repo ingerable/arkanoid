@@ -13,4 +13,5 @@ class GameManager
     void refreshWindowAndObjects();
     void startGame();
     void refreshWindow();
+    int topScoreAndLevelBorder;
 };

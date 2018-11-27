@@ -60,9 +60,9 @@ void Game::bonusCollision()
   auto last = m_bonus.empty() ? m_bonus.end() : std::prev(m_bonus.end());
   for (size_t i = 0; i < m_bonus.size(); i++) {
     if(m_bonus[i].position.m_y>=m_y2) //bonus felt outside level, delete it
-      {
+    {
           m_bonus.erase(m_bonus.begin()+i);
-      }
+    }
   }
 }
 
@@ -118,6 +118,7 @@ void Game::wallsCollision(Ball &ball)
             if(i->power != '0') {
                 m_bonus.push_back(Bonus(i->power, m_bg, Sdl_o_rectangle(i->position.m_x, i->position.m_y, Bonus::widthLetterCaseSprite, Bonus::heightLetterCaseSprite), false, true));
             }
+            this->score += i->points;
             m_walls.erase(i);
           }
           else
@@ -182,7 +183,6 @@ void Game::updateVaultsPosition(int x)
 
 void Game::parseLevelText()
 {
-
   char buffer[256];
   char *val = getcwd(buffer, sizeof(buffer));
   std::string path = std::string(buffer);
@@ -197,8 +197,8 @@ void Game::parseLevelText()
     exit(1);
   }
 
-  int xCursor = 0;
-  int yCursor = 0;
+  int xCursor = this->m_x1;
+  int yCursor = this->m_y1;
   char code[2]; // can be one or 2 char code
   int i=0;
   int ix; //code with int representation instead of array
