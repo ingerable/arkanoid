@@ -1,13 +1,13 @@
 #include "./../header/gameManager.h"
 
-GameManager::GameManager(int sizeWindowX, int sizeWindowY, char *bg, int mode)
+GameManager::GameManager(int sizeWindowX, int sizeWindowY, char const *bg, int mode)
 {
   topScoreAndLevelBorder = static_cast<int>((float)sizeWindowY*0.1);//top border for score and level
   m_window = Sdl_o_window("Arknoid", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, sizeWindowX, sizeWindowY+topScoreAndLevelBorder, SDL_WINDOW_SHOWN);
   m_bg = Sdl_o_surface(bg);
   m_bg.setColor(true,0);
   m_window.getSurface().setColor(true, 0);
-
+  (void) mode; //suppress warning
   //test (définir les dimensions des "games" automatiquement en fonction de la taille de la window pour plus tard)
   Game g1 = Game(0, sizeWindowX, topScoreAndLevelBorder, sizeWindowY+topScoreAndLevelBorder ,1, m_bg, m_window);
   m_games.push_back(g1);

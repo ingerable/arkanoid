@@ -1,20 +1,20 @@
 #include "./../header/bonus.h"
 
 
-Bonus::Bonus(char power, Sdl_o_surface img, Sdl_o_rectangle startPos)
+Bonus::Bonus(char p_power, Sdl_o_surface p_img, Sdl_o_rectangle p_startPos)
 {
-  this->power = power;
-  this->image = img;
-  this->position = startPos;
+  this->power = p_power;
+  this->image = p_img;
+  this->position = p_startPos;
 };
 
-Bonus::Bonus(char power, Sdl_o_surface img, Sdl_o_rectangle startPos, bool isActive, bool isFalling)
+Bonus::Bonus(char p_power, Sdl_o_surface p_img, Sdl_o_rectangle p_startPos, bool p_isActive, bool p_isFalling)
 {
-  this->power = power;
-  this->image = img;
-  this->position = startPos;
-  this->isActive = isActive;
-  this->isFalling = isFalling;
+  this->power = p_power;
+  this->image = p_img;
+  this->position = p_startPos;
+  this->isActive = p_isActive;
+  this->isFalling = p_isFalling;
   getTexturePosition();
 };
 

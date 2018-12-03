@@ -56,12 +56,12 @@ void Game::updatePosition()
 
 void Game::bonusCollision()
 {
-  auto i = std::begin(m_bonus);
-  auto last = m_bonus.empty() ? m_bonus.end() : std::prev(m_bonus.end());
-  for (size_t i = 0; i < m_bonus.size(); i++) {
-    if(m_bonus[i].position.m_y>=m_y2) //bonus felt outside level, delete it
+  //auto i = std::begin(m_bonus);
+  //auto last = m_bonus.empty() ? m_bonus.end() : std::prev(m_bonus.end());
+  for (size_t j = 0; j < m_bonus.size(); j++) {
+    if(m_bonus[j].position.m_y>=m_y2) //bonus felt outside level, delete it
     {
-          m_bonus.erase(m_bonus.begin()+i);
+          m_bonus.erase(m_bonus.begin()+j);
     }
   }
 }
@@ -70,21 +70,21 @@ void Game::borderCollision(Ball &ball)
 {
   if(ball.getX()<=m_x1)
   {
-    ball.speedX = -ball.speedX;
+    ball.bounceX();
   }
   else if(ball.getX()>=m_x2)
   {
-    ball.speedX = -ball.speedX;
+    ball.bounceX();
   }
 
   if(ball.getY()<=m_y1)
   {
-    ball.speedY = -ball.speedY;
+    ball.bounceY();
 
   }
   else if(ball.getY()>=m_y2)
   {
-    ball.speedY = 0;
+    ball.fall();
     //loose a life here
   }
 }
@@ -96,7 +96,7 @@ void Game::vaultCollision(Ball &ball)
     {
       if(ball.getY() >= v.position.m_y)
       {
-        ball.speedY = -ball.speedY;
+        ball.bounceY();
       }
     }
   }
@@ -107,11 +107,11 @@ void Game::wallsCollision(Ball &ball)
   auto i = std::begin(m_walls);
   while(i != std::end(m_walls))
   {
-      if( ball.getY() <= (i->position.m_y+i->position.m_height) && ball.getY() >= i->position.m_y)
+      if(ball.getY() <= (i->position.m_y+i->position.m_height) && ball.getY() >= i->position.m_y)
       {
         if(ball.getX()<= (i->position.m_x+i->position.m_width) && ball.getX() >= (i->position.m_x))
         {
-          ball.speedY = -ball.speedY;
+          ball.bounceY();
           i->health--;
           if(i->indestructible==0 && i->health==0)
           {
@@ -162,7 +162,7 @@ Sdl_o_rectangle Game::getTexturePosition()
   {
     return Sdl_o_rectangle(256,128,48,63);
   }
-  else if(m_current_level==33) //level 6
+  else //if(m_current_level==33) //level 6
   {
     return Sdl_o_rectangle(320,128,48,63);
   }
@@ -180,11 +180,10 @@ void Game::updateVaultsPosition(int x)
   }
 }
 
-
 void Game::parseLevelText()
 {
   char buffer[256];
-  char *val = getcwd(buffer, sizeof(buffer));
+  //char *val = getcwd(buffer, sizeof(buffer));
   std::string path = std::string(buffer);
 
   char x;

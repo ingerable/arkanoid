@@ -20,7 +20,7 @@ Sdl_o_surface::Sdl_o_surface(char const* pathImage)
  // copy rectSrc from current surface to rectTarget on target surface
 int Sdl_o_surface::blitSurfaceOn(SDL_Surface &target, SDL_Rect &rectSrc,SDL_Rect &rectTarget)
 {
-  SDL_BlitSurface(m_win_surf, &rectSrc, &target, &rectTarget);
+  return SDL_BlitSurface(m_win_surf, &rectSrc, &target, &rectTarget);
 }
 
 

@@ -6,10 +6,11 @@
 
 # définition des variables
 CXX=g++
-CFLAGS=-c -g -W -Wall -Wextra -Werror -Wmissing-declarations -Wmissing-prototypes -Wredundant-decls -Wshadow -Wbad-function-cast -Wcast-qual -O3
-LDFLAGS= -g -W -Wall -Wextra -Werror -Wmissing-declarations -Wmissing-prototypes -Wredundant-decls -Wshadow -Wbad-function-cast -Wcast-qual -lSDL2 -O3
+CFLAGS=-c -g -W -Wall -Wextra -Werror -Wmissing-declarations -Wredundant-decls -Wshadow -Wcast-qual -O3
+LDFLAGS= -g -W -Wall -Wextra -Werror -Wmissing-declarations -Wredundant-decls -Wshadow -Wcast-qual -lSDL2 -O3
 #nom du programme exécutable
-EXEC = a.out
+EXEC = Arkanoid
+#les sources (Vecteur/*.cpp)
 SRC = $(wildcard cpp/*.cpp SDL2_OO/*.cpp main.cpp)
 OBJ = $(SRC:.cpp=.o)
 
@@ -18,7 +19,7 @@ all : $(EXEC)
 
 $(EXEC) : $(OBJ)
 	@ $(CXX) -o $@ $^ $(LDFLAGS)
-%.o : %.c
+%.o : %.cpp
 	@ $(CXX) $(CFLAGS) $< -o $*.o
 
 # suppression des fichiers temporaires

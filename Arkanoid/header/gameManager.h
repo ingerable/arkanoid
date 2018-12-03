@@ -9,7 +9,7 @@ class GameManager
     Sdl_o_window m_window;
     Sdl_o_surface m_bg; // image containing sprites
 
-    GameManager(int sizeWindowX, int sizeWindowY,  char* bg, int mode);
+    GameManager(int sizeWindowX, int sizeWindowY,  char const *bg, int mode);
     void refreshWindowAndObjects();
     void startGame();
     void refreshWindow();

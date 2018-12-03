@@ -1,23 +1,23 @@
 #include "./../header/wall.h"
 
-Wall::Wall(int8_t type, int currentGameLevel, Sdl_o_surface bg, int xPosition, int yPosition)
+Wall::Wall(int8_t ptype, int currentGameLevel, Sdl_o_surface bg, int xPosition, int yPosition)
 {
   this->position = Sdl_o_rectangle(xPosition, yPosition, Wall::widthSpritePictureWithMargin, Wall::heightSpritePictureWithMargin);
-  this->type = type;
+  this->type = ptype;
   this->image = bg;
   scoreAndSprite();
   chooseWallType(type,currentGameLevel);
 }
 
-void Wall::chooseWallType(int8_t type, int currentGameLevel)
+void Wall::chooseWallType(int8_t ptype, int currentGameLevel)
 {
-  if(type>=1 && type<=12) // normal wall
+  if(ptype>=1 && ptype<=12) // normal wall
   {
     initNormalWall();
-  }else if(type==13) // hard wall
+  }else if(ptype==13) // hard wall
   {
     initHardWall(currentGameLevel);
-  }else if(type==14) // indestructible
+  }else if(ptype==14) // indestructible
   {
     initIndestructibleWall();
   }
