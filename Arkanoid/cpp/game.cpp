@@ -183,12 +183,13 @@ void Game::updateVaultsPosition(int x)
 void Game::parseLevelText()
 {
   char buffer[256];
-  //char *val = getcwd(buffer, sizeof(buffer));
-  std::string path = std::string(buffer);
+  char *val = getcwd(buffer, sizeof(buffer));
+  std::string path = std::string(val);
 
   char x;
   std::ifstream fileLevel;
   std::string txtPath = path + "/levels/" + std::to_string(m_current_level) + ".txt";
+  std::cout<<txtPath<<"\n";
   fileLevel.open(txtPath);
   if(!fileLevel) {
     std::cout<<"problem while opening level file"<<"\n";

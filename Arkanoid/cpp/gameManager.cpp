@@ -8,9 +8,12 @@ GameManager::GameManager(int sizeWindowX, int sizeWindowY, char const *bg, int m
   m_bg.setColor(true,0);
   m_window.getSurface().setColor(true, 0);
   (void) mode; //suppress warning
+
   //test (définir les dimensions des "games" automatiquement en fonction de la taille de la window pour plus tard)
   Game g1 = Game(0, sizeWindowX, topScoreAndLevelBorder, sizeWindowY+topScoreAndLevelBorder ,1, m_bg, m_window);
+  //Game g2 = Game(sizeWindowX/2, sizeWindowX, topScoreAndLevelBorder, sizeWindowY+topScoreAndLevelBorder ,1, m_bg, m_window);
   m_games.push_back(g1);
+  //m_games.push_back(g2);
 
   startGame();
 }
