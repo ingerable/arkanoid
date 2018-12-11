@@ -7,13 +7,22 @@ GameManager::GameManager(int sizeWindowX, int sizeWindowY, char const *bg, int m
   m_bg = Sdl_o_surface(bg);
   m_bg.setColor(true,0);
   m_window.getSurface().setColor(true, 0);
-  (void) mode; //suppress warning
+  m_mode = mode; //suppress warning
 
   //test (définir les dimensions des "games" automatiquement en fonction de la taille de la window pour plus tard)
-  Game g1 = Game(0, sizeWindowX, topScoreAndLevelBorder, sizeWindowY+topScoreAndLevelBorder ,1, m_bg, m_window);
-  //Game g2 = Game(sizeWindowX/2, sizeWindowX, topScoreAndLevelBorder, sizeWindowY+topScoreAndLevelBorder ,1, m_bg, m_window);
-  m_games.push_back(g1);
-  //m_games.push_back(g2);
+  if(m_mode==SOLO) //solo
+  {
+      Game g1 = Game(0, sizeWindowX, topScoreAndLevelBorder, sizeWindowY+topScoreAndLevelBorder ,m_mode, m_bg, m_window);
+      m_games.push_back(g1);
+  }
+  else if(m_mode==VERSUS)//duo versus
+  {
+    Game g1 = Game(0, sizeWindowX/2-(sizeWindowX*0.05), topScoreAndLevelBorder, sizeWindowY+topScoreAndLevelBorder ,m_mode, m_bg, m_window);
+    Game g2 = Game(sizeWindowX/2+(sizeWindowX*0.05), sizeWindowX, topScoreAndLevelBorder, sizeWindowY+topScoreAndLevelBorder ,m_mode, m_bg, m_window);
+    m_games.push_back(g1);
+    m_games.push_back(g2);
+  }
+
 
   startGame();
 }
@@ -40,6 +49,12 @@ void GameManager::startGame()
   					case SDLK_LEFT:  m_games[PLAYER_1].updateVaultsPosition(-10); break;
   					case SDLK_RIGHT: m_games[PLAYER_1].updateVaultsPosition(+10); break;
   					default: break;
+            if(m_mode>1)
+            {
+              case SDLK_w:  m_games[PLAYER_2].updateVaultsPosition(-10); break;
+    					case SDLK_c: m_games[PLAYER_2].updateVaultsPosition(+10); break;
+            }
+
   				}
   				break;
       }

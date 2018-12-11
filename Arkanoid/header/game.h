@@ -9,7 +9,7 @@
 #include <iostream>
 #include <string>
 #define SOLO 1
-#define COOP 2
+#define VERSUS 2
 
 class Game // this class handle gamemode for only ONE window but one or more player
 {

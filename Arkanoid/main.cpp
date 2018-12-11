@@ -3,9 +3,9 @@
 #include "./header/gameManager.h"
 #include "./header/font.h"
 
-int main()
+int main(int argc, char *argv[])
 {
-  GameManager gm(13*Wall::widthSpritePicture, 25*Wall::heightSpritePicture, "./bmp/sprites2.bmp", 1);
+  if(argc==2 && atoi(argv[1])<=2)GameManager gm(13*Wall::widthSpritePicture*atoi(argv[1]), 25*Wall::heightSpritePicture, "./bmp/sprites2.bmp", atoi(argv[1])); //otherwise we have warning because of unusued argc parameter
   return 0;
 }
 
