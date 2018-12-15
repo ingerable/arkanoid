@@ -29,7 +29,7 @@ void Game::initSolo()
   int ball_vault_x = (m_x2+m_x1)/2; // x position for the vault and the ball (middle of window)
 
   m_balls.push_back(Ball(m_bg, Sdl_o_rectangle(ball_vault_x,m_y2-90,60,60)));
-  m_vaults.push_back(Vault(m_bg,Sdl_o_rectangle(ball_vault_x,m_y2-30,60,60)));
+  m_vaults.push_back(Vault(m_bg, Sdl_o_rectangle(ball_vault_x,m_y2-30,60,60)));
 }
 
 void Game::updatePosition()
@@ -40,7 +40,7 @@ void Game::updatePosition()
   }
 
   //update balls (we will have to check collisions here)
-  for(Ball& b : m_balls) {
+  for(Ball &b : m_balls) {
     b.updatePosition(); //update rectangle attribute of ball
     borderCollision(b);
     vaultCollision(b);
@@ -296,7 +296,7 @@ bool Game::isAlreadyActive(Bonus bonus)
 
 void Game::slowDownBall()
 {
-  for(Ball& b : this->m_balls) {
+  for(Ball &b : this->m_balls) {
       b.slowBall();
   }
 }

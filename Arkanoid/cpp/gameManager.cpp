@@ -3,7 +3,7 @@
 GameManager::GameManager(int sizeWindowX, int sizeWindowY, char const *bg, int mode)
 {
   topScoreAndLevelBorder = static_cast<int>((float)sizeWindowY*0.1);//top border for score and level
-  m_window = Sdl_o_window("Arknoid", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, sizeWindowX, sizeWindowY+topScoreAndLevelBorder, SDL_WINDOW_SHOWN);
+  m_window = Sdl_o_window("Arkanoid", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, sizeWindowX, sizeWindowY+topScoreAndLevelBorder, SDL_WINDOW_SHOWN);
   m_bg = Sdl_o_surface(bg);
   m_bg.setColor(true,0);
   m_window.getSurface().setColor(true, 0);

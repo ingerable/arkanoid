@@ -8,7 +8,11 @@
 class Ball: public GameObject
 {
   public:
-    std::unique_ptr<Vecteur> speed;
+    //std::unique_ptr<Vecteur> speed;
+		Vecteur speed = {
+			-2.0,
+			-2.0
+		};
     //float speedX = -2.0;
     //float speedY = -2.0;
 
