@@ -1,25 +1,26 @@
 #include "./../header/font.h"
 
-Font::Font(char* p_path, Sdl_o_window* p_window)
+Font::Font(Sdl_o_surface p_path, Sdl_o_window* p_window)
 {
-  this->pathBmp = p_path;
+  this->fontSurfaceBmp = p_path;
   this->window = p_window;
 };
 
-/*Sdl_o_rectangle Font::drawFont(char c, Sdl_o_rectangle position)
+void Font::drawFont(char c, Sdl_o_rectangle position)
 {
   int xPosition = (c*widthFont)%(16*widthFont);
   int yPosition = static_cast<int>(ceil(c/16.0));
-  std::cout<<yPosition<<"\n";
-  this->window->fillWindowWithSurface(this->pathBmp, g.borders, Sdl_o_rectangle( , )); // redraw the background
-};*/
+  Sdl_o_rectangle fontSpritePos(xPosition, yPosition,widthFont,heightFont);
 
-void Font::drawFonts(std::string codes, int& xStart, int& yStart)
+  this->window->drawGameObject(GameObject(this->fontSurfaceBmp, fontSpritePos, position), position);
+};
+
+void Font::drawFonts(std::string codes, int xStart, int yStart)
 {
   for(std::string::size_type i =0; i <codes.size(); i++)
   {
-    //drawFont(codes[i], Sdl_o_rectangle(xStart, yStart,widthFont, heightFont));
+    drawFont(codes[i], Sdl_o_rectangle(xStart, yStart,widthFont, heightFont));
     xStart += widthFont;
-    yStart += heightFont;
+    //yStart += heightFont;
   }
-}
+};

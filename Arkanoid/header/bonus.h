@@ -1,5 +1,6 @@
 #pragma once
 #include "./../header/gameObject.h"
+#include "ball.h"
 
 class Bonus: public GameObject
 {
@@ -10,14 +11,12 @@ class Bonus: public GameObject
     static const int xBeggining = 256; // x of the first case of the letter sprite
     static const int xEnd = 512; //end of the sprite
 
-    static const int fallingSpeed = 2;
+    static const int fallingSpeed = 1;
     char power;
-    bool isActive = 0;
-    bool isFalling = 1;
 
     Bonus(char power, Sdl_o_surface img, Sdl_o_rectangle startPos);
-    Bonus(char power, Sdl_o_surface img, Sdl_o_rectangle startPos, bool isActive, bool isFalling);
 
     void updatePosition();
     void getTexturePosition();
+
 };

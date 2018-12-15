@@ -10,6 +10,7 @@ Game::Game(int x1, int x2 , int y1, int y2, int mode, Sdl_o_surface s, Sdl_o_win
   m_bg = s;
   m_window = w;
   borders = Sdl_o_rectangle(m_x1,m_y1, m_x2-m_x1, m_y2-m_y1); //x y width height
+
   if(mode == SOLO)
   {
     parseLevelText();
@@ -54,19 +55,27 @@ void Game::updatePosition()
 
   for(Bonus& bo : m_bonus ) {
     bo.updatePosition();
-    m_window.drawGameObject((GameObject) bo, bo.position);
+    m_window.drawGameObject((GameObject) bo, bo.position); //if bonus is currently falling then draw it
   }
   bonusCollision();
+
+
 }
 
 void Game::bonusCollision()
 {
-  //auto i = std::begin(m_bonus);
-  //auto last = m_bonus.empty() ? m_bonus.end() : std::prev(m_bonus.end());
   for (size_t j = 0; j < m_bonus.size(); j++) {
     if(m_bonus[j].position.m_y>=m_y2) //bonus felt outside level, delete it
     {
           m_bonus.erase(m_bonus.begin()+j);
+    }
+
+    for(Vault& v : m_vaults) {
+      if(v.collision(m_bonus[j])) //if there there is collision between bonus and vault
+      {
+          triggerBonus(m_bonus[j]);
+          m_bonus.erase(m_bonus.begin()+j);
+      }
     }
   }
 }
@@ -121,7 +130,7 @@ void Game::wallsCollision(Ball &ball)
           if(i->indestructible==0 && i->health==0)
           {
             if(i->power != '0') {
-                m_bonus.push_back(Bonus(i->power, m_bg, Sdl_o_rectangle(i->position.m_x, i->position.m_y, Bonus::widthLetterCaseSprite, Bonus::heightLetterCaseSprite), false, true));
+                m_bonus.push_back(Bonus(i->power, m_bg, Sdl_o_rectangle(i->position.m_x, i->position.m_y, Bonus::widthLetterCaseSprite, Bonus::heightLetterCaseSprite)));
             }
             this->score += i->points;
             m_walls.erase(i);
@@ -257,4 +266,43 @@ void Game::placeWall(int code, int &xCursor, int &yCursor) // instantiate and pl
       m_walls.push_back(Wall(code, this->m_current_level, this->m_bg,xCursor,yCursor));
       xCursor += Wall::widthSpritePicture;
   }
+}
+
+void Game::triggerBonus(Bonus b)
+{
+  if(!isAlreadyActive(b)) //if same power is not active yet
+  {
+    switch (b.power) {
+      case 'S':
+        slowDownBall();
+        break;
+    }
+  }
+}
+
+bool Game::isAlreadyActive(Bonus bonus)
+{
+
+  for(Bonus b:this->m_bonus_active)
+  {
+    if(bonus.power == b.power)
+    {
+      return true;
+    }
+  }
+  this->m_bonus_active.push_back(bonus);
+  return false;
+}
+
+void Game::slowDownBall()
+{
+  for(Ball& b : this->m_balls) {
+      b.slowBall();
+  }
+}
+
+void Game::catchAndFire()
+{
+  this->m_balls.front().position = Sdl_o_rectangle(this->m_vaults.front().position.m_x+this->m_vaults.front().position.m_width/2, this->m_vaults.front().position.m_y, this->m_balls.front().position.m_width, this->m_balls.front().position.m_height);
+  this->m_balls.front().setSpeed(0,0);
 }

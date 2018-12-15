@@ -50,3 +50,16 @@ void Ball::getTexturePosition()
 {
   this->positionImage = Sdl_o_rectangle(4, 66, 8, 8);
 }
+
+//slow down the ball
+void Ball::slowBall()
+{
+  this->speedX = speedX >= 0 ? (speedX-1.0) : (speedX+1.0);
+  this->speedY = speedY >= 0 ? (speedY-1.0) : (speedY+1.0);
+}
+
+void Ball::setSpeed(float x, float y)
+{
+  this->speedX = x;
+  this->speedY = y;
+}

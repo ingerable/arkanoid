@@ -12,4 +12,5 @@ class GameObject
   public:
     GameObject();
     GameObject(Sdl_o_surface img, Sdl_o_rectangle pos, Sdl_o_rectangle startPos);
+    bool collision(GameObject o); //check collision between current gameobject and o
 };

@@ -10,6 +10,10 @@ Sdl_o_surface::Sdl_o_surface(SDL_Surface* m)
 Sdl_o_surface::Sdl_o_surface(char const* pathImage)
 {
   m_win_surf = SDL_LoadBMP(pathImage);
+  if(m_win_surf == NULL)
+  {
+    std::cout<<SDL_GetError()<<"\n";
+  }
 }
 
  SDL_Surface* Sdl_o_surface::getSurfPtr()
