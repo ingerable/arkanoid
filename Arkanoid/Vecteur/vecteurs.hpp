@@ -4,11 +4,12 @@
 #include <iostream>
 #include <ostream>
 #include <cassert>
+#include <memory>
 #include "expressionDeVecteur.hpp"
-#include "sommeDeVecteur.hpp"
+/*#include "sommeDeVecteur.hpp"
 #include "multiplicationDeVecteur.hpp"
 #include "soustractionDeVecteur.hpp"
-#include "negatifDeVecteur.hpp"
+#include "negatifDeVecteur.hpp"*/
 
 
 /*

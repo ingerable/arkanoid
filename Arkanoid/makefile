@@ -11,7 +11,7 @@ LDFLAGS= -g -W -Wall -Wextra -Werror -Wmissing-declarations -Wredundant-decls -W
 #nom du programme exécutable
 EXEC = Arkanoid
 #les sources (Vecteur/*.cpp)
-SRC = $(wildcard cpp/*.cpp SDL2_OO/*.cpp main.cpp)
+SRC = $(wildcard cpp/*.cpp SDL2_OO/*.cpp main.cpp Vecteur/*.cpp)
 OBJ = $(SRC:.cpp=.o)
 
 # création de l'exécutable

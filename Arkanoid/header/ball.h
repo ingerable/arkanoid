@@ -2,13 +2,15 @@
 #define ball_H
 #include "./../SDL2_OO/sdl_o_surface.h"
 #include "./../header/gameObject.h"
+#include "./../Vecteur/expressionDeVecteur.hpp"
+#include "./../Vecteur/vecteurs.hpp"
 
 class Ball: public GameObject
 {
   public:
-    //std::unique_ptr<Vecteur> speed;
-    float speedX = -2.0;
-    float speedY = -2.0;
+    std::unique_ptr<Vecteur> speed;
+    //float speedX = -2.0;
+    //float speedY = -2.0;
 
     const float baseSpeedX = -2.0; //base speed if we need to retrieve it
     const float baseSpeedY = -2.0;
