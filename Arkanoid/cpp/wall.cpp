@@ -57,19 +57,19 @@ void Wall::initIndestructibleWall()
   this->power = '0';
 }
 
- void Wall::randomPower()
+void Wall::randomPower()
 {
-  int hasPower = rand()%3;
-  if(hasPower==0)
-  {
-    //char powers[7] = {'S', 'C', 'E', 'D', 'L', 'B', 'P'};
-    char powers[5] = {'S', 'C', 'E', 'D', 'P'};
-    this->power = powers[rand()%5];
-  }
-  else
-  {
-    this->power = '0';
-  }
+  this->power='C';
+  // int hasPower = rand()%3;
+  // if(hasPower==0)
+  // {
+  //   char powers[5] = {'S', 'C', 'E', 'D', 'P'};
+  //   this->power = powers[rand()%5];
+  // }
+  // else
+  // {
+  //   this->power = '0';
+  // }
 }
 
 void Wall::scoreAndSprite()

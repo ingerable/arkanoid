@@ -10,33 +10,36 @@ Game::Game(int x1, int x2 , int y1, int y2, int mode, Sdl_o_surface s, Sdl_o_win
   m_bg = s;
   m_window = w;
   borders = Sdl_o_rectangle(m_x1,m_y1, m_x2-m_x1, m_y2-m_y1); //x y width height
+  m_myFont = Font(Sdl_o_surface("./bmp/Arkanoid_ascii.bmp"),&m_window);
 
   if(mode == SOLO)
   {
-    initSolo();
+    init(true);
 
   }
   else if(mode == VERSUS)
   {
-    initSolo();
+    init(true);
   }
 }
 
-//init the different games object for SOLO mode
-void Game::initSolo()
+//init level or reload current level
+void Game::init(bool newLevel)
 {
   int ball_vault_x = (m_x2+m_x1)/2; // x position for the vault and the ball (middle of window)
-
   //clear bonus and balls
   m_balls.clear();
   m_bonus_active.clear();
   m_bonus.clear();
-  m_walls.clear();
-
   m_balls.push_back(Ball(m_bg,'s',ball_vault_x,m_y2-90));
   m_vault = Vault(m_bg,'m',ball_vault_x ,m_y2-30);
-  m_myFont = Font(Sdl_o_surface("./bmp/Arkanoid_ascii.bmp"),&m_window);
-  parseLevelText(); //read walls
+
+  if(newLevel) //new level
+  {
+    m_walls.clear();
+    parseLevelText(); //read walls
+  }
+
 }
 
 
@@ -59,7 +62,7 @@ void Game::updatePosition()
         if(m_balls.empty())
         {
           this->health--; //if the fallen ball was the last ball in the game player loose one health
-          initSolo();
+          init(false);
         }
       }
     }
@@ -76,14 +79,14 @@ void Game::updatePosition()
   bonusCollision();
 
   //draw font
-  m_myFont.drawInt(this->m_score,0,0); //draw score at given position
-  m_myFont.drawInt(this->health,m_x2-(m_x2*0.1),0); //draw score at given position
+  m_myFont.drawInt(this->m_score,this->m_x1,0); //draw score at given position
+  m_myFont.drawInt(this->health,m_x2-(m_x2*0.1),0); //draw healt at given position
 }
 
 
 void Game::run()
 {
-  if(this->health > 0)
+  if(this->health > 0) //player still in the game
   {
     updatePosition();
   }
@@ -357,7 +360,9 @@ void Game::triggerActiveBonus()
 {
   if(isPowerActive('C') && m_vault.fixedBall != nullptr)
   {
-    m_vault.fixedBall->setSpeed(Ball::baseSpeedX, Ball::baseSpeedY);
+
+    m_vault.fixedBall->setSpeed(0.0, -2.0);
+    m_vault.fixedBall->setPositionY(m_vault.position.m_y-(m_vault.position.m_height)); //push the ball away from the vault otherwise it will stuck
     m_vault.fixedBall = nullptr; //reset the pointer of fixed ball
   }
 }

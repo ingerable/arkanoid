@@ -19,3 +19,13 @@ bool GameObject::collision(GameObject o) //check collision between current gameo
   }
   return false;
 }
+
+void GameObject::setPositionX(int x)
+{
+  this->position.m_x = x;
+}
+
+void GameObject::setPositionY(int y)
+{
+  this->position.m_y = y;
+}

@@ -70,6 +70,4 @@ void Ball::setSpeed(float x, float y)
 {
 	speed[0] = x;
 	speed[1] = y;
-  //this->speedX = x;
-  //this->speedY = y;
 }

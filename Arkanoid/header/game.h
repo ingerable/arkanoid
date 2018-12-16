@@ -34,10 +34,6 @@ class Game // this class handle gamemode for only ONE window but one or more pla
     int health = 3;
     Sdl_o_rectangle borders;
 
-    void initSolo();
-    void initCoop();
-    void refreshWindowAndObjects();
-    void startGame();
     Sdl_o_rectangle getTexturePosition(); //get texture position depending on current level
     void parseLevelText();
     Game(int x1, int x2 , int y1, int y2, int mode, Sdl_o_surface s, Sdl_o_window w);
@@ -45,7 +41,8 @@ class Game // this class handle gamemode for only ONE window but one or more pla
 
     //collision
     void updatePosition();
-    void run();
+    void init(bool newLevel); //load level for first or reload level (keep score/health/wall)
+    void run(); //update position, compute collision, draw font ...
     void wallsCollision(Ball &ball);
     bool borderCollision(Ball &ball);
     void vaultCollision(Ball &ball);
@@ -54,7 +51,7 @@ class Game // this class handle gamemode for only ONE window but one or more pla
 
     //wall section
     void chooseWallType(char type);
-    void placeWall(int code, int &xCursor, int &yCursor);
+    void placeWall(int code, int &xCursor, int &yCursor); //place a wall on the screen
 
     //bonus
     void removeBonusByPowerName(char name); //remove bonus with power name ('C', 'S')
@@ -64,9 +61,9 @@ class Game // this class handle gamemode for only ONE window but one or more pla
     bool isPowerActive(char power); //check if bonus with power power is active
 
     //bonus effect
-    void slowDownBall();
+    void slowDownBall(); //slow down ball
     void catchAndFire(Ball *ball);
 
-    //next level and game over
+    //game over
     void gameOver();
 };
