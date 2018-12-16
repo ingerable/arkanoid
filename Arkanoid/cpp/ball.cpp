@@ -3,11 +3,11 @@
 Ball::Ball()// : speed(new Vecteur{-2.0, -2.0})
 {};
 
-Ball::Ball(Sdl_o_surface img, Sdl_o_rectangle startPos)// : speed(new Vecteur{-2.0, -2.0})
+Ball::Ball(Sdl_o_surface img, char p_size, int p_xStart, int p_yStart)// : speed(new Vecteur{-2.0, -2.0})
 {
   this->image = img;
-  this->position = startPos;
-  getTexturePosition();
+  getTexturePosition(p_size);
+  this->position = Sdl_o_rectangle(p_xStart,p_yStart,this->positionImage.m_width,this->positionImage.m_height);
 };
 
 void Ball::updatePosition()
@@ -46,9 +46,14 @@ void Ball::fall()
     //speedY = 0;
 }
 
-void Ball::getTexturePosition()
+void Ball::getTexturePosition(char size)
 {
-  this->positionImage = Sdl_o_rectangle(4, 66, 8, 8);
+  switch (size) {
+    case 's':
+      this->positionImage = Sdl_o_rectangle(4, 66, 8, 8);
+      break;
+  }
+
 }
 
 //slow down the ball

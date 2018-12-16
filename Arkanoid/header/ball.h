@@ -13,16 +13,14 @@ class Ball: public GameObject
 			-2.0,
 			-2.0
 		};
-    //float speedX = -2.0;
-    //float speedY = -2.0;
 
-    const float baseSpeedX = -2.0; //base speed if we need to retrieve it
-    const float baseSpeedY = -2.0;
+    static constexpr float baseSpeedX = -2.0; //base speed if we need to retrieve it
+    static constexpr float baseSpeedY = -2.0;
 
   public:
     Ball();
-    Ball(Sdl_o_surface img, Sdl_o_rectangle startPos);
-    void getTexturePosition();
+    Ball(Sdl_o_surface img, char p_size, int p_xStart, int p_yStart);
+    void getTexturePosition(char size);
     void updatePosition(); //update the ball position based on speed
     using GameObject::GameObject; //parent constructor
     float getX();

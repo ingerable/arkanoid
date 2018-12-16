@@ -28,25 +28,34 @@ void Game::initSolo()
 {
   int ball_vault_x = (m_x2+m_x1)/2; // x position for the vault and the ball (middle of window)
 
-  m_balls.push_back(Ball(m_bg, Sdl_o_rectangle(ball_vault_x,m_y2-90,60,60)));
-  m_vaults.push_back(Vault(m_bg, Sdl_o_rectangle(ball_vault_x,m_y2-30,60,60)));
+  m_balls.push_back(Ball(m_bg,'s',ball_vault_x,m_y2-90));
+  m_vault = Vault(m_bg,'m',ball_vault_x ,m_y2-30);
 }
 
 void Game::updatePosition()
 {
-  //update vaults
-  for(Vault& v : m_vaults) {
-    m_window.drawGameObject((GameObject) v, v.position); //draw ball object on window
+  //update vault
+  m_window.drawGameObject((GameObject) m_vault, m_vault.position); //draw ball object on window
+
+  if(m_balls.empty() == false)
+  {
+    for(int i = m_balls.size() - 1; i >= 0; i--)
+    {
+      m_balls.at(i).updatePosition(); //update rectangle attribute of ball
+      vaultCollision(m_balls.at(i));
+      wallsCollision(m_balls.at(i));
+      m_window.drawGameObject((GameObject) m_balls.at(i), m_balls.at(i).position); //draw ball object on window
+      if(borderCollision(m_balls.at(i))) //ball felt out of level
+      {
+        m_balls.erase( m_balls.begin() + i ); //remove the ball
+        //loose a life here
+        this->health--;
+        if(this->health ==0) //end of game
+        {}
+      }
+    }
   }
 
-  //update balls (we will have to check collisions here)
-  for(Ball &b : m_balls) {
-    b.updatePosition(); //update rectangle attribute of ball
-    borderCollision(b);
-    vaultCollision(b);
-    wallsCollision(b);
-    m_window.drawGameObject((GameObject) b, b.position); //draw ball object on window
-  }
 
   //update walls
   for(Wall& w : m_walls) {
@@ -58,29 +67,28 @@ void Game::updatePosition()
     m_window.drawGameObject((GameObject) bo, bo.position); //if bonus is currently falling then draw it
   }
   bonusCollision();
-
-
 }
 
 void Game::bonusCollision()
 {
-  for (size_t j = 0; j < m_bonus.size(); j++) {
+  for (size_t j = 0; j < m_bonus.size(); j++)
+  {
     if(m_bonus[j].position.m_y>=m_y2) //bonus felt outside level, delete it
     {
           m_bonus.erase(m_bonus.begin()+j);
     }
-
-    for(Vault& v : m_vaults) {
-      if(v.collision(m_bonus[j])) //if there there is collision between bonus and vault
+    else
+    {
+      if(m_vault.collision(m_bonus[j])) //if there there is collision between bonus and vault
       {
-          triggerBonus(m_bonus[j]);
-          m_bonus.erase(m_bonus.begin()+j);
+        triggerBonus(m_bonus[j]);
+        m_bonus.erase(m_bonus.begin()+j);
       }
     }
   }
 }
 
-void Game::borderCollision(Ball &ball)
+bool Game::borderCollision(Ball &ball)
 {
   if(ball.getX()<=m_x1)
   {
@@ -99,19 +107,22 @@ void Game::borderCollision(Ball &ball)
   else if(ball.getY()>=m_y2)
   {
     ball.fall();
-    //loose a life here
+    return true; //ball felt
   }
+  return false;
 }
 
 void Game::vaultCollision(Ball &ball)
 {
-  for(Vault& v : m_vaults) {
-    if(ball.getX()<= (v.position.m_x+v.position.m_width) && ball.getX() >= (v.position.m_x))
+  if(ball.getX()<= (m_vault.position.m_x+m_vault.position.m_width) && ball.getX() >= (m_vault.position.m_x) && ball.getY() >= m_vault.position.m_y)
+  {
+    if(isPowerActive('C') && m_vault.fixedBall == nullptr)
+    { //if catch and fire is in bonus listœ
+      catchAndFire(&ball);
+    }
+    else
     {
-      if(ball.getY() >= v.position.m_y)
-      {
-        ball.bounceY();
-      }
+      ball.bounceY();
     }
   }
 }
@@ -183,15 +194,16 @@ Sdl_o_rectangle Game::getTexturePosition()
 }
 
 //add x and y to vault position
-void Game::updateVaultsPosition(int x)
+void Game::updateVaultPosition(int x)
 {
-  for(Vault& v : m_vaults)
-  {
-    int tmpPosXLeft = v.position.m_x + x; //left of the vault
-    int tmpPosXRight = v.position.m_x + x + v.position.m_width; //right of the vault
+    if(isPowerActive('C') && this->m_vault.fixedBall != nullptr) //if catch and fire is active and ball is on vault, then move ball with the vault
+    {
+      this->m_vault.fixedBall->position.m_x += x;
+    }
+    int tmpPosXLeft = m_vault.position.m_x + x; //left of the vault
+    int tmpPosXRight = m_vault.position.m_x + x + m_vault.position.m_width; //right of the vault
     if(tmpPosXLeft>=this->m_x1 && tmpPosXRight<=this->m_x2)
-    v.position.m_x = tmpPosXLeft;
-  }
+    m_vault.position.m_x = tmpPosXLeft;
 }
 
 void Game::parseLevelText()
@@ -272,9 +284,27 @@ void Game::triggerBonus(Bonus b)
 {
   if(!isAlreadyActive(b)) //if same power is not active yet
   {
-    switch (b.power) {
-      case 'S':
+    switch (b.power)
+    {
+      case 'C': //catch and fire
+        this->m_bonus_active.push_back(b);
+        break;
+      case 'S': //slow ball
+        this->m_bonus_active.push_back(b);
         slowDownBall();
+        break;
+      case 'E': //expand vault
+        this->m_bonus_active.push_back(b);
+        m_vault.getTexturePosition('l');
+        break;
+      case 'D': //3 ball effect
+        Ball b1 = Ball(m_bg,'s',m_balls.front().position.m_x,m_balls.front().position.m_y);
+        b1.setSpeed(-2.0,-2.0);
+        Ball b2 = Ball(m_bg,'s',m_balls.front().position.m_x,m_balls.front().position.m_y);
+        b2.setSpeed(2.0,-2.0);
+        m_balls.front().setSpeed(0.0,2.0);
+        m_balls.push_back(b1);
+        m_balls.push_back(b2);
         break;
     }
   }
@@ -282,7 +312,6 @@ void Game::triggerBonus(Bonus b)
 
 bool Game::isAlreadyActive(Bonus bonus)
 {
-
   for(Bonus b:this->m_bonus_active)
   {
     if(bonus.power == b.power)
@@ -290,8 +319,16 @@ bool Game::isAlreadyActive(Bonus bonus)
       return true;
     }
   }
-  this->m_bonus_active.push_back(bonus);
   return false;
+}
+
+void Game::triggerActiveBonus()
+{
+  if(isPowerActive('C') && m_vault.fixedBall != nullptr)
+  {
+    m_vault.fixedBall->setSpeed(Ball::baseSpeedX, Ball::baseSpeedY);
+    m_vault.fixedBall = nullptr; //reset the pointer of fixed ball
+  }
 }
 
 void Game::slowDownBall()
@@ -301,8 +338,36 @@ void Game::slowDownBall()
   }
 }
 
-void Game::catchAndFire()
+void Game::catchAndFire(Ball *ball)
 {
-  this->m_balls.front().position = Sdl_o_rectangle(this->m_vaults.front().position.m_x+this->m_vaults.front().position.m_width/2, this->m_vaults.front().position.m_y, this->m_balls.front().position.m_width, this->m_balls.front().position.m_height);
-  this->m_balls.front().setSpeed(0,0);
+  if(m_vault.fixedBall == nullptr)
+  {
+    ball->position = Sdl_o_rectangle(m_vault.position.m_x+this->m_vault.position.m_width/2, this->m_vault.position.m_y, ball->position.m_width, ball->position.m_height);
+    ball->setSpeed(0,0);
+    m_vault.fixedBall = ball;
+  }
+}
+
+bool Game::isPowerActive(char power)
+{
+  for(Bonus b : this->m_bonus_active) {
+      if(b.power == power) {
+        return true;
+      }
+  }
+  return false;
+}
+
+void Game::removeBonusByPowerName(char name)
+{
+  if(m_bonus_active.empty() == false)
+  {
+    for(int i = m_bonus_active.size() - 1; i >= 0; i--)
+    {
+      if(m_bonus_active.at(i).power == name)
+      {
+        m_bonus_active.erase( m_bonus_active.begin() + i );
+      }
+    }
+  }
 }
