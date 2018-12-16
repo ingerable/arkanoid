@@ -86,11 +86,16 @@ void Game::updatePosition()
 
 void Game::run()
 {
-  if(this->health > 0) //player still in the game
+  if(m_walls.empty()) //next level
+  {
+    this->m_current_level++;
+    init(true);
+  }
+  else if(this->health > 0) //player still in the game so continue
   {
     updatePosition();
   }
-  else
+  else if(this->health == 0) //game over
   {
     gameOver();
   }

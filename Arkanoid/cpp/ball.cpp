@@ -62,8 +62,8 @@ void Ball::getTexturePosition(char size)
 //slow down the ball
 void Ball::slowBall()
 {
-	speed[0] = speed[0] >= 0 ? -1.0 : 1.0;
-	speed[1] = speed[1] >= 0 ? -1.0 : 1.0;
+	speed[0] = speed[0] > 0 ? 1.0 : -1.0;
+	speed[1] = speed[1] > 0 ? 1.0 : -1.0;
 }
 
 void Ball::setSpeed(float x, float y)
