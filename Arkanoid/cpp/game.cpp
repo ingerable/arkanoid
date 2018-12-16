@@ -30,6 +30,8 @@ void Game::initSolo()
 
   m_balls.push_back(Ball(m_bg,'s',ball_vault_x,m_y2-90));
   m_vault = Vault(m_bg,'m',ball_vault_x ,m_y2-30);
+  m_myFont = Font(Sdl_o_surface("./bmp/Arkanoid_ascii.bmp"),&m_window);
+
 }
 
 void Game::updatePosition()
@@ -50,13 +52,9 @@ void Game::updatePosition()
         m_balls.erase( m_balls.begin() + i ); //remove the ball
         //loose a life here
         this->health--;
-        if(this->health ==0) //end of game
-        {}
       }
     }
   }
-
-
   //update walls
   for(Wall& w : m_walls) {
     m_window.drawGameObject((GameObject) w, w.position);
@@ -67,6 +65,23 @@ void Game::updatePosition()
     m_window.drawGameObject((GameObject) bo, bo.position); //if bonus is currently falling then draw it
   }
   bonusCollision();
+
+  //draw font
+  m_myFont.drawInt(this->m_score,0,0); //draw score at given position
+  m_myFont.drawInt(this->health,m_x2-(m_x2*0.1),0); //draw score at given position
+}
+
+
+void Game::run()
+{
+  if(this->health > 0)
+  {
+    updatePosition();
+  }
+  else
+  {
+    gameOver();
+  }
 }
 
 void Game::bonusCollision()
@@ -114,7 +129,7 @@ bool Game::borderCollision(Ball &ball)
 
 void Game::vaultCollision(Ball &ball)
 {
-  if(ball.getX()<= (m_vault.position.m_x+m_vault.position.m_width) && ball.getX() >= (m_vault.position.m_x) && ball.getY() >= m_vault.position.m_y)
+  if(ball.collision(m_vault))
   {
     if(isPowerActive('C') && m_vault.fixedBall == nullptr)
     { //if catch and fire is in bonus listœ
@@ -122,7 +137,8 @@ void Game::vaultCollision(Ball &ball)
     }
     else
     {
-      ball.bounceY();
+      //ball.bounceYWithAngle(m_vault.position.m_x,m_vault.position.m_x+m_vault.position.m_width);
+      ball.bounceYWithAngle(m_vault.position.m_x,m_vault.position.m_x+m_vault.position.m_width);
     }
   }
 }
@@ -143,7 +159,7 @@ void Game::wallsCollision(Ball &ball)
             if(i->power != '0') {
                 m_bonus.push_back(Bonus(i->power, m_bg, Sdl_o_rectangle(i->position.m_x, i->position.m_y, Bonus::widthLetterCaseSprite, Bonus::heightLetterCaseSprite)));
             }
-            this->score += i->points;
+            this->m_score += i->points;
             m_walls.erase(i);
           }
           else
@@ -187,9 +203,13 @@ Sdl_o_rectangle Game::getTexturePosition()
   {
     return Sdl_o_rectangle(256,128,48,63);
   }
-  else //if(m_current_level==33) //level 6
+  else if(m_current_level==33) //level 6
   {
     return Sdl_o_rectangle(320,128,48,63);
+  }
+  else //black screen
+  {
+    return Sdl_o_rectangle(190,65,50,50);
   }
 }
 
@@ -297,6 +317,9 @@ void Game::triggerBonus(Bonus b)
         this->m_bonus_active.push_back(b);
         m_vault.getTexturePosition('l');
         break;
+        case 'P':
+          this->health++;
+          break;
       case 'D': //3 ball effect
         Ball b1 = Ball(m_bg,'s',m_balls.front().position.m_x,m_balls.front().position.m_y);
         b1.setSpeed(-2.0,-2.0);
@@ -370,4 +393,11 @@ void Game::removeBonusByPowerName(char name)
       }
     }
   }
+}
+
+void Game::gameOver()
+{
+  m_current_level = -1; //so we have dark background
+  std::vector<char> gameOver {40,34,46,38,1,17,55,38,51};
+  m_myFont.drawFonts(&gameOver,static_cast<int>(m_x2/2-(0.25*m_x2)), m_y2/2);
 }

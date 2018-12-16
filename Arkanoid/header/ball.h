@@ -27,6 +27,7 @@ class Ball: public GameObject
     float getY();
     void bounceX();
     void bounceY();
+    void bounceYWithAngle(int x1_vault, int x2_vault);
     void fall();
     void slowBall();
     void setSpeed(float x, float y);

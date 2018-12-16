@@ -14,8 +14,8 @@ bool GameObject::collision(GameObject o) //check collision between current gameo
     && position.m_x + position.m_width > o.position.m_width
     && position.m_y < o.position.m_y + o.position.m_height
     && position.m_height + position.m_y > o.position.m_y)
-    {
-      return true;
-    }
-    return false;
+  {
+    return true;
+  }
+  return false;
 }

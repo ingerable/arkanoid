@@ -22,15 +22,16 @@ class Game // this class handle gamemode for only ONE window but one or more pla
     std::vector<Bonus> m_bonus_active; //list of active bonus
     std::vector<GameObject> m_projectiles;
 
+    Font m_myFont; //font object that draw on window
     Sdl_o_surface m_bg; // image containing sprites
     Sdl_o_window m_window; //window containing one or more games (for the moment 1 or 2)
-    int score = 0;
+    int m_score = 0;
     int m_current_level = 1;
     int m_x1; // borders of the game
     int m_x2;
     int m_y1;
     int m_y2;
-    int health = 3;
+    int health = 1;
     Sdl_o_rectangle borders;
 
     void initSolo();
@@ -42,7 +43,9 @@ class Game // this class handle gamemode for only ONE window but one or more pla
     Game(int x1, int x2 , int y1, int y2, int mode, Sdl_o_surface s, Sdl_o_window w);
 
 
+    //collision
     void updatePosition();
+    void run();
     void wallsCollision(Ball &ball);
     bool borderCollision(Ball &ball);
     void vaultCollision(Ball &ball);
@@ -63,4 +66,7 @@ class Game // this class handle gamemode for only ONE window but one or more pla
     //bonus effect
     void slowDownBall();
     void catchAndFire(Ball *ball);
+
+    //next level and game over
+    void gameOver();
 };
