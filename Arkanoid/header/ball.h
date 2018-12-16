@@ -10,11 +10,11 @@ class Ball: public GameObject
   public:
     //std::unique_ptr<Vecteur> speed;
 		Vecteur speed = {
-			-2.0,
-			-2.0
+			baseSpeedX,
+			baseSpeedY
 		};
 
-    static constexpr float baseSpeedX = -2.0; //base speed if we need to retrieve it
+    static constexpr float baseSpeedX = 0.0; //base speed if we need to retrieve it
     static constexpr float baseSpeedY = -2.0;
 
   public:

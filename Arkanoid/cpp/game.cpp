@@ -13,12 +13,11 @@ Game::Game(int x1, int x2 , int y1, int y2, int mode, Sdl_o_surface s, Sdl_o_win
 
   if(mode == SOLO)
   {
-    parseLevelText();
     initSolo();
+
   }
   else if(mode == VERSUS)
   {
-    parseLevelText();
     initSolo();
   }
 }
@@ -28,11 +27,18 @@ void Game::initSolo()
 {
   int ball_vault_x = (m_x2+m_x1)/2; // x position for the vault and the ball (middle of window)
 
+  //clear bonus and balls
+  m_balls.clear();
+  m_bonus_active.clear();
+  m_bonus.clear();
+  m_walls.clear();
+
   m_balls.push_back(Ball(m_bg,'s',ball_vault_x,m_y2-90));
   m_vault = Vault(m_bg,'m',ball_vault_x ,m_y2-30);
   m_myFont = Font(Sdl_o_surface("./bmp/Arkanoid_ascii.bmp"),&m_window);
-
+  parseLevelText(); //read walls
 }
+
 
 void Game::updatePosition()
 {
@@ -50,8 +56,11 @@ void Game::updatePosition()
       if(borderCollision(m_balls.at(i))) //ball felt out of level
       {
         m_balls.erase( m_balls.begin() + i ); //remove the ball
-        //loose a life here
-        this->health--;
+        if(m_balls.empty())
+        {
+          this->health--; //if the fallen ball was the last ball in the game player loose one health
+          initSolo();
+        }
       }
     }
   }
@@ -235,7 +244,6 @@ void Game::parseLevelText()
   char x;
   std::ifstream fileLevel;
   std::string txtPath = path + "/levels/" + std::to_string(m_current_level) + ".txt";
-  std::cout<<txtPath<<"\n";
   fileLevel.open(txtPath);
   if(!fileLevel) {
     std::cout<<"problem while opening level file"<<"\n";
@@ -288,7 +296,7 @@ void Game::placeWall(int code, int &xCursor, int &yCursor) // instantiate and pl
   Wall wall;
   if( (xCursor+Wall::widthSpritePicture)>this->m_x2) //xCursor exceed border
   {
-    xCursor = 0;
+    xCursor = this->m_x1;
     yCursor += Wall::heightSpritePicture;
     m_walls.push_back(Wall(code, this->m_current_level, this->m_bg,xCursor,yCursor));
     xCursor += Wall::widthSpritePicture;
@@ -399,5 +407,5 @@ void Game::gameOver()
 {
   m_current_level = -1; //so we have dark background
   std::vector<char> gameOver {40,34,46,38,1,17,55,38,51};
-  m_myFont.drawFonts(&gameOver,static_cast<int>(m_x2/2-(0.25*m_x2)), m_y2/2);
+  m_myFont.drawFonts(&gameOver,static_cast<int>(m_x1+m_x2/2-(0.25*(m_x1+m_x2))), m_y2/2);
 }

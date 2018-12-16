@@ -59,12 +59,12 @@ void Wall::initIndestructibleWall()
 
  void Wall::randomPower()
 {
-  int hasPower = rand()%2;
+  int hasPower = rand()%3;
   if(hasPower==0)
   {
     //char powers[7] = {'S', 'C', 'E', 'D', 'L', 'B', 'P'};
-    char powers[6] = {'S', 'C', 'E', 'D', 'L', 'P'};
-    this->power = powers[rand()%7];
+    char powers[5] = {'S', 'C', 'E', 'D', 'P'};
+    this->power = powers[rand()%5];
   }
   else
   {

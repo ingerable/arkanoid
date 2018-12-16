@@ -31,7 +31,7 @@ class Game // this class handle gamemode for only ONE window but one or more pla
     int m_x2;
     int m_y1;
     int m_y2;
-    int health = 1;
+    int health = 3;
     Sdl_o_rectangle borders;
 
     void initSolo();
